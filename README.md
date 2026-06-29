@@ -1,6 +1,6 @@
 # Wavix Ruby SDK
 
-[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Fwavix%2Fwavix-ruby)
+[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Fwavix%2Fwavix-ruby-sdk)
 
 The official Wavix Ruby SDK provides programmatic access to the
 [Wavix](https://wavix.com) APIs. Use it to add messaging, voice, and account
@@ -40,7 +40,7 @@ Use the SDK to:
 ## Installation
 
 ```sh
-gem install wavix
+gem install wavix-ruby-sdk
 ```
 
 **Requirements:** Ruby 3.3 or later.
@@ -227,19 +227,19 @@ when that SDK version is released. Update the SDK regularly to access the
 latest API capabilities and fixes.
 
 Before you update the SDK, review the
-[GitHub releases](https://github.com/wavix/wavix-ruby/releases) for changes
+[GitHub releases](https://github.com/wavix/wavix-ruby-sdk/releases) for changes
 that might affect your application.
 
 ## Release notes
 
-See [GitHub releases](https://github.com/wavix/wavix-ruby/releases) for new
+See [GitHub releases](https://github.com/wavix/wavix-ruby-sdk/releases) for new
 features, fixes, and breaking changes in each SDK release.
 
 ## Major-version upgrades
 
 The SDK doesn't provide separate migration guides. Breaking changes ship only
 in major versions, so before you upgrade, review the
-[GitHub releases](https://github.com/wavix/wavix-ruby/releases) for breaking
+[GitHub releases](https://github.com/wavix/wavix-ruby-sdk/releases) for breaking
 changes, then update and test in a development environment before you deploy.
 
 ## Documentation
@@ -247,7 +247,7 @@ changes, then update and test in a development environment before you deploy.
 - For API guides and API reference documentation, see the
   [Wavix documentation](https://docs.wavix.com).
 - For SDK methods and types, see the
-  [Ruby SDK reference](https://github.com/wavix/wavix-ruby/blob/HEAD/reference.md).
+  [Ruby SDK reference](https://github.com/wavix/wavix-ruby-sdk/blob/HEAD/reference.md).
 
 ## Resources and support
 
@@ -259,7 +259,7 @@ changes, then update and test in a development environment before you deploy.
 - **Support:** For product and API support, contact
   [support@wavix.com](mailto:support@wavix.com).
 - **Issues:** To report an SDK bug or request a feature, open a
-  [GitHub issue](https://github.com/wavix/wavix-ruby/issues).
+  [GitHub issue](https://github.com/wavix/wavix-ruby-sdk/issues).
 - **License:** The SDK is available under the [MIT License](./LICENSE).
 
 ## Contributing
