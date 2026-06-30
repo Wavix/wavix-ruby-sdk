@@ -1,0 +1,21 @@
+# frozen_string_literal: true
+
+module Wavix
+  module Buy
+    module Numbers
+      module Types
+        class ListNumbersRequest < Internal::Types::Model
+          field :country_id, -> { Integer }, optional: false, nullable: false
+
+          field :city_id, -> { Integer }, optional: false, nullable: false
+
+          field :text_enabled_only, -> { Internal::Types::Boolean }, optional: true, nullable: false
+
+          field :page, -> { Integer }, optional: true, nullable: false
+
+          field :per_page, -> { Integer }, optional: true, nullable: false
+        end
+      end
+    end
+  end
+end

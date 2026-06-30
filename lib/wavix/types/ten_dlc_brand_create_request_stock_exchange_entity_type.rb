@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+module Wavix
+  module Types
+    module TenDlcBrandCreateRequestStockExchangeEntityType
+      extend Wavix::Internal::Types::Enum
+
+      PRIVATE_PROFIT = "PRIVATE_PROFIT"
+      NON_PROFIT = "NON_PROFIT"
+      GOVERNMENT = "GOVERNMENT"
+    end
+  end
+end
