@@ -32,7 +32,7 @@ module Wavix
         # @option params [Integer, nil] :page
         # @option params [Integer, nil] :per_page
         #
-        # @return [Wavix::SmsAndMms::Messages::Types::ListMessagesResponse]
+        # @return [Wavix::Types::MessageListResponse]
         def list(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           query_params = {}
@@ -61,7 +61,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::SmsAndMms::Messages::Types::ListMessagesResponse.load(response.body)
+            Wavix::Types::MessageListResponse.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)
@@ -69,8 +69,8 @@ module Wavix
         end
 
         # Sends an SMS or MMS message. MMS is supported for U.S. numbers only. Track delivery using the returned
-        # `message_id` and the message status callback.
-        # **Rate limit**: 20 messages per phone number in 24 hours.
+        # `message_id` and the message status callback. The recipient must be opted in to receive messages from the
+        # account; sending to an opted-out number fails.
         #
         # @param request_options [Hash]
         # @param params [Wavix::SmsAndMms::Messages::Types::SendMessagesRequest]
@@ -115,7 +115,7 @@ module Wavix
         # @option request_options [Integer] :timeout_in_seconds
         # @option params [String] :id
         #
-        # @return [Wavix::SmsAndMms::Messages::Types::GetMessagesResponse]
+        # @return [Wavix::Types::MessageResponse]
         def get(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           request = Wavix::Internal::JSON::Request.new(
@@ -131,7 +131,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::SmsAndMms::Messages::Types::GetMessagesResponse.load(response.body)
+            Wavix::Types::MessageResponse.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)

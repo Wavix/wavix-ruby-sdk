@@ -70,7 +70,7 @@ module Wavix
         # @option request_options [Hash{String => Object}] :additional_body_parameters
         # @option request_options [Integer] :timeout_in_seconds
         #
-        # @return [Wavix::SmsAndMms::OptOuts::Types::CreateOptOutsResponse]
+        # @return [Wavix::Types::SuccessResponse]
         def create(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           request = Wavix::Internal::JSON::Request.new(
@@ -87,7 +87,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::SmsAndMms::OptOuts::Types::CreateOptOutsResponse.load(response.body)
+            Wavix::Types::SuccessResponse.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)

@@ -43,7 +43,8 @@ module Wavix
           end
         end
 
-        # Creates a Sender ID. Use the 10DLC API to create Sender IDs in the US.
+        # Creates a Sender ID. Use the 10DLC API to create Sender IDs in the US. Registering a Sender ID incurs a
+        # recurring monthly fee, billed to the account balance.
         #
         # @param request_options [Hash]
         # @param params [Wavix::SmsAndMms::SenderIDs::Types::SenderIDCreateRequest]
@@ -122,7 +123,7 @@ module Wavix
         # @option request_options [Integer] :timeout_in_seconds
         # @option params [String] :id
         #
-        # @return [Wavix::SmsAndMms::SenderIDs::Types::DeleteSenderIDsResponse]
+        # @return [Wavix::Types::SuccessResponse]
         def delete(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           request = Wavix::Internal::JSON::Request.new(
@@ -138,7 +139,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::SmsAndMms::SenderIDs::Types::DeleteSenderIDsResponse.load(response.body)
+            Wavix::Types::SuccessResponse.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)

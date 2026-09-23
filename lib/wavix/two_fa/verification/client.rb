@@ -11,9 +11,9 @@ module Wavix
           @client = client
         end
 
-        # Creates a 2FA verification and sends a one-time password (OTP) to the destination phone number over the
-        # selected channel. Requires a 2FA service configured in the Wavix portal; the service is reused to generate and
-        # validate OTPs.
+        # Creates a 2FA verification and sends a real one-time password (OTP) to the destination phone number over the
+        # selected channel; this bills the account per OTP sent. Requires a 2FA service configured in the Wavix portal;
+        # the service is reused to generate and validate OTPs.
         #
         # The verification proceeds through three steps:
         # 1. Create a verification to generate and send an OTP.
@@ -28,7 +28,7 @@ module Wavix
         # @option request_options [Hash{String => Object}] :additional_body_parameters
         # @option request_options [Integer] :timeout_in_seconds
         #
-        # @return [Wavix::TwoFa::Verification::Types::CreateVerificationResponse]
+        # @return [Wavix::Types::TwoFactorVerificationResponse]
         def create(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           request = Wavix::Internal::JSON::Request.new(
@@ -45,7 +45,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TwoFa::Verification::Types::CreateVerificationResponse.load(response.body)
+            Wavix::Types::TwoFactorVerificationResponse.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)
@@ -64,7 +64,7 @@ module Wavix
         # @option request_options [Integer] :timeout_in_seconds
         # @option params [String] :session_id
         #
-        # @return [Wavix::TwoFa::Verification::Types::ResendVerificationResponse]
+        # @return [Wavix::Types::TwoFactorVerificationResendResponse]
         def resend(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           request_data = Wavix::TwoFa::Verification::Types::TwoFactorVerificationResendRequest.new(params).to_h
@@ -85,7 +85,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TwoFa::Verification::Types::ResendVerificationResponse.load(response.body)
+            Wavix::Types::TwoFactorVerificationResendResponse.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)
@@ -93,6 +93,8 @@ module Wavix
         end
 
         # Validates the OTP submitted by the end user against the verification identified by `session_id`.
+        # Non-idempotent — each call consumes one of a limited number of attempts tracked server-side; once exhausted,
+        # the verification returns `429` until a new verification is created.
         #
         # @param request_options [Hash]
         # @param params [Wavix::TwoFa::Verification::Types::TwoFactorVerificationCheckRequest]
@@ -103,7 +105,7 @@ module Wavix
         # @option request_options [Integer] :timeout_in_seconds
         # @option params [String] :session_id
         #
-        # @return [Wavix::TwoFa::Verification::Types::CheckVerificationResponse]
+        # @return [Wavix::Types::TwoFactorVerificationCheckResponse]
         def check(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           request_data = Wavix::TwoFa::Verification::Types::TwoFactorVerificationCheckRequest.new(params).to_h
@@ -124,7 +126,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TwoFa::Verification::Types::CheckVerificationResponse.load(response.body)
+            Wavix::Types::TwoFactorVerificationCheckResponse.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)

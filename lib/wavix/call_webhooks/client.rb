@@ -44,7 +44,8 @@ module Wavix
       end
 
       # Registers a callback URL for the `on-call` or `post-call` event. Wavix sends a POST callback to the URL when the
-      # event occurs.
+      # event occurs. Creates persistent configuration that forwards call metadata to the URL on every matching call
+      # until the webhook is deleted.
       #
       # @param request_options [Hash]
       # @param params [Wavix::CallWebhooks::Types::CallWebhooksCreateRequest]

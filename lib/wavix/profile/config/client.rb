@@ -21,7 +21,7 @@ module Wavix
         # @option request_options [Hash{String => Object}] :additional_body_parameters
         # @option request_options [Integer] :timeout_in_seconds
         #
-        # @return [Wavix::Profile::Config::Types::GetConfigResponse]
+        # @return [Wavix::Types::ProfileConfigResponse]
         def get(request_options: {}, **_params)
           request = Wavix::Internal::JSON::Request.new(
             base_url: request_options[:base_url],
@@ -36,7 +36,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::Profile::Config::Types::GetConfigResponse.load(response.body)
+            Wavix::Types::ProfileConfigResponse.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)

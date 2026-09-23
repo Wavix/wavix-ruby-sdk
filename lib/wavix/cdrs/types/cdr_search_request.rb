@@ -22,11 +22,11 @@ module Wavix
 
         field :uuid, -> { String }, optional: true, nullable: false
 
-        field :disposition, -> { Wavix::Cdrs::Types::CdrSearchRequestDisposition }, optional: true, nullable: false
+        field :disposition, -> { Wavix::Types::CallDisposition }, optional: true, nullable: false
 
-        field :page, -> { Integer }, optional: false, nullable: false
+        field :page, -> { Integer }, optional: true, nullable: false
 
-        field :per_page, -> { Integer }, optional: false, nullable: false
+        field :per_page, -> { Integer }, optional: true, nullable: false
       end
     end
   end

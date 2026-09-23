@@ -22,7 +22,7 @@ module Wavix
         # @option request_options [Integer] :timeout_in_seconds
         # @option params [Boolean, nil] :text_enabled_only
         #
-        # @return [Wavix::Buy::Countries::Types::ListCountriesResponse]
+        # @return [Wavix::Types::CountryListResponse]
         def list(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           query_params = {}
@@ -42,7 +42,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::Buy::Countries::Types::ListCountriesResponse.load(response.body)
+            Wavix::Types::CountryListResponse.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)

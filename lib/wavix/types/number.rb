@@ -25,7 +25,7 @@ module Wavix
 
       field :channels, -> { Integer }, optional: false, nullable: false
 
-      field :require_docs, -> { Internal::Types::Array[String] }, optional: false, nullable: false
+      field :require_docs, -> { Internal::Types::Array[Wavix::Types::DocumentType] }, optional: false, nullable: false
 
       field :documents, -> { Internal::Types::Array[Wavix::Types::NumberDocument] }, optional: false, nullable: false
 

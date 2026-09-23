@@ -20,12 +20,16 @@ module Wavix
       # @option request_options [Hash{String => Object}] :additional_body_parameters
       # @option request_options [Integer] :timeout_in_seconds
       # @option params [Wavix::SubAccounts::Types::ListSubAccountsRequestStatus, nil] :status
+      # @option params [Integer, nil] :page
+      # @option params [Integer, nil] :per_page
       #
       # @return [Wavix::Types::SubAccountsListResponse]
       def list(request_options: {}, **params)
         params = Wavix::Internal::Types::Utils.normalize_keys(params)
         query_params = {}
         query_params["status"] = params[:status] if params.key?(:status)
+        query_params["page"] = params[:page] if params.key?(:page)
+        query_params["per_page"] = params[:per_page] if params.key?(:per_page)
 
         request = Wavix::Internal::JSON::Request.new(
           base_url: request_options[:base_url],

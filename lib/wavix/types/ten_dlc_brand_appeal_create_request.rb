@@ -4,7 +4,7 @@ module Wavix
   module Types
     # Brand identity verification appeal details.
     class TenDlcBrandAppealCreateRequest < Internal::Types::Model
-      field :appeal_categories, -> { Internal::Types::Array[String] }, optional: false, nullable: false
+      field :appeal_categories, -> { Internal::Types::Array[Wavix::Types::TenDlcBrandAppealCreateRequestAppealCategoriesItem] }, optional: false, nullable: false
 
       field :evidence, -> { Internal::Types::Array[String] }, optional: false, nullable: false
 

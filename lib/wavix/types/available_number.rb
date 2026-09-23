@@ -26,7 +26,7 @@ module Wavix
 
       field :number, -> { String }, optional: false, nullable: false
 
-      field :require_docs, -> { Internal::Types::Array[Integer] }, optional: false, nullable: false
+      field :require_docs, -> { Internal::Types::Array[Wavix::Types::DocumentType] }, optional: false, nullable: false
 
       field :sms_enabled, -> { Internal::Types::Boolean }, optional: false, nullable: false
 

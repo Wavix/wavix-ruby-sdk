@@ -9,7 +9,7 @@ module Wavix
 
       field :uuid, -> { String }, optional: false, nullable: false
 
-      field :language, -> { Wavix::Types::TranscriptionLanguage }, optional: false, nullable: false
+      field :language, -> { Wavix::Types::TranscriptionLanguage }, optional: false, nullable: true
 
       field :duration, -> { Integer }, optional: false, nullable: false
 

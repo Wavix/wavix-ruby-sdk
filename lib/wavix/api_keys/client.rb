@@ -74,7 +74,7 @@ module Wavix
         end
         code = response.code.to_i
         if code.between?(200, 299)
-          Wavix::Types::APIKey.load(response.body)
+          Wavix::Types::APIKeyWithSecret.load(response.body)
         else
           error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
           raise error_class.new(response.body, code: code)

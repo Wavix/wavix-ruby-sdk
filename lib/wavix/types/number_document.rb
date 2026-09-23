@@ -14,7 +14,7 @@ module Wavix
 
       field :doc_file_name, -> { String }, optional: false, nullable: false
 
-      field :doc_type_id, -> { Integer }, optional: false, nullable: false
+      field :doc_type, -> { Wavix::Types::DocumentType }, optional: false, nullable: true
 
       field :status, -> { String }, optional: false, nullable: false
 

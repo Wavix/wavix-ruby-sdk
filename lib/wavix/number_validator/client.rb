@@ -10,7 +10,10 @@ module Wavix
         @client = client
       end
 
-      # Validates a single phone number and returns line type, carrier, portability, and reachability details.
+      # Validates a single phone number and returns line type, carrier, portability, and reachability details. The
+      # response's `error_code` is a per-number result code (`000` success; `013` internal error; `021` invalid format;
+      # `041` remote timeout; `042` remote query failed; `091` insufficient funds) — distinct from the HTTP status codes
+      # below.
       #
       # @param request_options [Hash]
       # @param params [Hash]
@@ -22,7 +25,7 @@ module Wavix
       # @option params [String] :phone_number
       # @option params [Wavix::Types::PhoneNumberValidationType] :type
       #
-      # @return [Wavix::NumberValidator::Types::GetNumberValidatorResponse]
+      # @return [Wavix::Types::PhoneValidationResponse]
       def get(request_options: {}, **params)
         params = Wavix::Internal::Types::Utils.normalize_keys(params)
         query_params = {}
@@ -43,7 +46,7 @@ module Wavix
         end
         code = response.code.to_i
         if code.between?(200, 299)
-          Wavix::NumberValidator::Types::GetNumberValidatorResponse.load(response.body)
+          Wavix::Types::PhoneValidationResponse.load(response.body)
         else
           error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
           raise error_class.new(response.body, code: code)

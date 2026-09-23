@@ -665,7 +665,6 @@ client.sip_trunks.create(
   ip_restrict: false,
   didinfo_enabled: true,
   call_restrict: true,
-  cost_limit: true,
   channels_restrict: false,
   rewrite_enabled: true,
   transcription_enabled: true,
@@ -802,7 +801,6 @@ client.sip_trunks.update(
   ip_restrict: false,
   didinfo_enabled: true,
   call_restrict: true,
-  cost_limit: true,
   channels_restrict: false,
   rewrite_enabled: true,
   transcription_enabled: true,
@@ -913,7 +911,7 @@ client.sip_trunks.delete(id: 3107)
 </details>
 
 ## Cart
-<details><summary><code>client.cart.<a href="/lib/wavix/cart/client.rb">get</a>() -> Wavix::Cart::Types::GetCartResponse</code></summary>
+<details><summary><code>client.cart.<a href="/lib/wavix/cart/client.rb">get</a>() -> Wavix::Types::CartResponse</code></summary>
 <dl>
 <dd>
 
@@ -967,7 +965,7 @@ client.cart.get
 </dl>
 </details>
 
-<details><summary><code>client.cart.<a href="/lib/wavix/cart/client.rb">add</a>(request) -> Internal::Types::Array[Object]</code></summary>
+<details><summary><code>client.cart.<a href="/lib/wavix/cart/client.rb">add</a>(request) -> Internal::Types::Array[Wavix::Types::AvailableNumber]</code></summary>
 <dl>
 <dd>
 
@@ -1029,7 +1027,7 @@ client.cart.add(ids: %w[541139862174 541139862175])
 </dl>
 </details>
 
-<details><summary><code>client.cart.<a href="/lib/wavix/cart/client.rb">remove</a>(request) -> Wavix::Cart::Types::RemoveCartResponse</code></summary>
+<details><summary><code>client.cart.<a href="/lib/wavix/cart/client.rb">remove</a>(request) -> Wavix::Types::SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -1091,7 +1089,7 @@ client.cart.remove(ids: %w[541139862174 541139862175])
 </dl>
 </details>
 
-<details><summary><code>client.cart.<a href="/lib/wavix/cart/client.rb">checkout</a>(request) -> Wavix::Cart::Types::CheckoutCartResponse</code></summary>
+<details><summary><code>client.cart.<a href="/lib/wavix/cart/client.rb">checkout</a>(request) -> Wavix::Types::SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -1103,7 +1101,7 @@ client.cart.remove(ids: %w[541139862174 541139862175])
 <dl>
 <dd>
 
-Purchases the listed phone numbers from the cart. Activation and monthly fees are deducted from the account balance.
+Purchases the listed phone numbers from the cart. Activation and monthly fees are debited from the account balance immediately, and the purchase cannot be reversed through this API.
 </dd>
 </dl>
 </dd>
@@ -1263,7 +1261,7 @@ client.numbers.list(
 </dl>
 </details>
 
-<details><summary><code>client.numbers.<a href="/lib/wavix/numbers/client.rb">delete</a>() -> Wavix::Numbers::Types::DeleteNumbersResponse</code></summary>
+<details><summary><code>client.numbers.<a href="/lib/wavix/numbers/client.rb">delete</a>() -> Wavix::Types::SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -1711,7 +1709,7 @@ client.cdrs.list(
 <dl>
 <dd>
 
-**disposition:** `Wavix::Types::CallDisposition` — Filters CDRs by call disposition. One of `answered` (the called party answered), `busy` (the called party was busy), `rejected` (the call was declined), `failed` (the call could not be routed), or `all` (no disposition filter).
+**disposition:** `Wavix::Types::CallDisposition` — Filters CDRs by call disposition. One of `answered` (the called party answered), `noanswer` (no answer within the ring timeout), `busy` (the called party was busy), `failed` (the call could not be routed), or `all` (no disposition filter).
     
 </dd>
 </dl>
@@ -1809,9 +1807,7 @@ Searches call transcriptions for the given keywords or phrases and returns the m
 client.cdrs.search(
   type: "placed",
   from: "2023-08-01",
-  to: "2023-08-31",
-  page: 1,
-  per_page: 50
+  to: "2023-08-31"
 )
 ```
 </dd>
@@ -1899,10 +1895,10 @@ client.cdrs.search(
 <dl>
 <dd>
 
-**disposition:** `Wavix::Cdrs::Types::CdrSearchRequestDisposition` 
+**disposition:** `Wavix::Types::CallDisposition` 
 
 Call disposition to filter results.  If omitted, returns only answered
- calls. Allowed values: `answered`, `busy`, `rejected`,
+ calls. Allowed values: `answered`, `noanswer`, `busy`,
   `failed`, `all`. Use `all` to return calls
    regardless of their disposition.
     
@@ -1952,7 +1948,7 @@ Call disposition to filter results.  If omitted, returns only answered
 <dl>
 <dd>
 
-Transcribes the recording of the call identified by `call_id`. Transcription is asynchronous; poll the transcription endpoint for the result.
+Transcribes the recording of the call identified by `call_id`. Transcription is asynchronous; poll the transcription endpoint for the result. Billed per minute at the account's call-transcription rate; fails with an insufficient-funds error when the balance cannot cover it.
 </dd>
 </dl>
 </dd>
@@ -1967,7 +1963,7 @@ Transcribes the recording of the call identified by `call_id`. Transcription is 
 <dd>
 
 ```ruby
-client.cdrs.retranscribe(call_id: "bbaa37bf-430a-46da-ade3-c248e407016")
+client.cdrs.retranscribe(call_id: "bbaa37bf-430a-46da-ade3-c248e4070160")
 ```
 </dd>
 </dl>
@@ -2045,7 +2041,7 @@ Returns the transcription of the recorded call identified by `call_id`. Alias of
 <dd>
 
 ```ruby
-client.cdrs.transcriptions(call_id: "bbaa37bf-430a-46da-ade3-c248e407016")
+client.cdrs.transcriptions(call_id: "bbaa37bf-430a-46da-ade3-c248e4070160")
 ```
 </dd>
 </dl>
@@ -2229,7 +2225,7 @@ client.cdrs.list_all(
 <dl>
 <dd>
 
-**disposition:** `Wavix::Types::CallDisposition` — Filters CDRs by call disposition. One of `answered` (the called party answered), `busy` (the called party was busy), `rejected` (the call was declined), `failed` (the call could not be routed), or `all` (no disposition filter).
+**disposition:** `Wavix::Types::CallDisposition` — Filters CDRs by call disposition. One of `answered` (the called party answered), `noanswer` (no answer within the ring timeout), `busy` (the called party was busy), `failed` (the call could not be routed), or `all` (no disposition filter).
     
 </dd>
 </dl>
@@ -2560,7 +2556,7 @@ client.call_recording.get(id: 123)
 <dl>
 <dd>
 
-Deletes the call recording identified by `id`. Deletion is permanent and removes the recording file.
+Deletes the call recording identified by `id`. Deletion is permanent — the audio file is unrecoverable.
 </dd>
 </dl>
 </dd>
@@ -2611,7 +2607,7 @@ client.call_recording.delete(id: 123)
 </details>
 
 ## Speech Analytics
-<details><summary><code>client.speech_analytics.<a href="/lib/wavix/speech_analytics/client.rb">create</a>(request) -> Wavix::SpeechAnalytics::Types::CreateSpeechAnalyticsResponse</code></summary>
+<details><summary><code>client.speech_analytics.<a href="/lib/wavix/speech_analytics/client.rb">create</a>(request) -> Wavix::Types::SubmitFileTranscriptionResponse</code></summary>
 <dl>
 <dd>
 
@@ -2678,7 +2674,7 @@ client.speech_analytics.create
 </dl>
 </details>
 
-<details><summary><code>client.speech_analytics.<a href="/lib/wavix/speech_analytics/client.rb">get</a>(request_id) -> Wavix::SpeechAnalytics::Types::GetSpeechAnalyticsResponse</code></summary>
+<details><summary><code>client.speech_analytics.<a href="/lib/wavix/speech_analytics/client.rb">get</a>(request_id) -> Wavix::Types::FileTranscriptionResponse</code></summary>
 <dl>
 <dd>
 
@@ -2888,7 +2884,7 @@ client.call_webhooks.list
 <dl>
 <dd>
 
-Registers a callback URL for the `on-call` or `post-call` event. Wavix sends a POST callback to the URL when the event occurs.
+Registers a callback URL for the `on-call` or `post-call` event. Wavix sends a POST callback to the URL when the event occurs. Creates persistent configuration that forwards call metadata to the URL on every matching call until the webhook is deleted.
 </dd>
 </dl>
 </dd>
@@ -3085,7 +3081,7 @@ client.call_control.list
 <dl>
 <dd>
 
-Places an outbound call. Returns the call with its `uuid` for tracking and control.
+Places a real, billable outbound PSTN call. Returns the call with its `uuid` for tracking and control.
 </dd>
 </dl>
 </dd>
@@ -3261,7 +3257,7 @@ client.call_control.get(id: "id")
 <dl>
 <dd>
 
-Ends the active call identified by `id` by hanging up.
+Ends the active call identified by `id` by hanging up. Irreversible — the call cannot be resumed once ended.
 </dd>
 </dl>
 </dd>
@@ -3396,7 +3392,7 @@ client.call_control.update(
 <dl>
 <dd>
 
-Answers the inbound call identified by `id`. Optionally starts media streaming on answer.
+Answers the inbound call identified by `id`. Optionally starts recording, post-call transcription, or live media streaming on answer.
 </dd>
 </dl>
 </dd>
@@ -3592,7 +3588,7 @@ Prompt to play before collecting digits.
 </details>
 
 ## NumberValidator
-<details><summary><code>client.number_validator.<a href="/lib/wavix/number_validator/client.rb">get</a>() -> Wavix::NumberValidator::Types::GetNumberValidatorResponse</code></summary>
+<details><summary><code>client.number_validator.<a href="/lib/wavix/number_validator/client.rb">get</a>() -> Wavix::Types::PhoneValidationResponse</code></summary>
 <dl>
 <dd>
 
@@ -3604,7 +3600,7 @@ Prompt to play before collecting digits.
 <dl>
 <dd>
 
-Validates a single phone number and returns line type, carrier, portability, and reachability details.
+Validates a single phone number and returns line type, carrier, portability, and reachability details. The response's `error_code` is a per-number result code (`000` success; `013` internal error; `021` invalid format; `041` remote timeout; `042` remote query failed; `091` insufficient funds) — distinct from the HTTP status codes below.
 </dd>
 </dl>
 </dd>
@@ -3694,9 +3690,7 @@ Validates a batch of phone numbers. When `async` is `true`, returns a `request_i
 ```ruby
 client.number_validator.create_bulk(
   phone_numbers: %w[971501390098 971504359195],
-  type: "format",
-  async: true,
-  force: true
+  type: "format"
 )
 ```
 </dd>
@@ -3712,7 +3706,7 @@ client.number_validator.create_bulk(
 <dl>
 <dd>
 
-**phone_numbers:** `Internal::Types::Array[String]` — List of phone numbers to get detailed information about.
+**phone_numbers:** `Internal::Types::Array[String]` — List of phone numbers to get detailed information about. Maximum 1000 numbers per request.
     
 </dd>
 </dl>
@@ -3728,7 +3722,7 @@ client.number_validator.create_bulk(
 <dl>
 <dd>
 
-**async:** `Internal::Types::Boolean` — Indicates whether the request should be executed asynchronously. If `true`, the response will include a `request_uuid` that can be used to poll for results. If `false`, the response will include validation results directly.
+**async:** `Internal::Types::Boolean` — Indicates whether the request should be executed asynchronously. If `true`, the response will include a `request_uuid` that can be used to poll for results. If `false` (default), the response will include validation results directly.
     
 </dd>
 </dl>
@@ -3736,7 +3730,7 @@ client.number_validator.create_bulk(
 <dl>
 <dd>
 
-**force:** `Internal::Types::Boolean` — Indicates whether to force a fresh validation instead of returning a previously cached result.
+**force:** `Internal::Types::Boolean` — Indicates whether to force a fresh validation instead of returning a previously cached result. Defaults to `false`.
     
 </dd>
 </dl>
@@ -3769,7 +3763,7 @@ client.number_validator.create_bulk(
 <dl>
 <dd>
 
-Launches a voice campaign that places an outbound call using a pre-configured scenario. Track progress with the returned voice campaign `id`.
+Launches a voice campaign that places a real outbound call using a pre-configured scenario. Track progress with the returned voice campaign `id`.
 </dd>
 </dl>
 </dd>
@@ -3928,7 +3922,7 @@ client.link_shortener.create(link: "https://your-site.com/long-url")
 <dl>
 <dd>
 
-**link:** `String` — Target URL to shorten.
+**link:** `String` — Target URL to shorten. Must be `https://` — the short link is publicly resolvable and redirects any visitor here, so only pass URLs you trust; this endpoint is a common target for open-redirect and phishing abuse.
     
 </dd>
 </dl>
@@ -3944,7 +3938,7 @@ client.link_shortener.create(link: "https://your-site.com/long-url")
 <dl>
 <dd>
 
-**fallback_url:** `String` — Fallback URL for expired or invalid links.
+**fallback_url:** `String` — Fallback URL for expired or invalid links. Must be `https://` — same open-redirect/phishing considerations as `link` apply.
     
 </dd>
 </dl>
@@ -3952,7 +3946,7 @@ client.link_shortener.create(link: "https://your-site.com/long-url")
 <dl>
 <dd>
 
-**phone:** `String` — Phone number for the short link.
+**phone:** `String` — Phone number the short link is associated with, in E.164 format (without the leading `+`). Used to attribute click metrics returned by short link metrics list.
     
 </dd>
 </dl>
@@ -4228,6 +4222,22 @@ client.sub_accounts.list
 <dl>
 <dd>
 
+**page:** `Integer` — Page number to retrieve. Default `1`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**per_page:** `Integer` — Number of records to return per page. Default `25`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `Wavix::SubAccounts::RequestOptions` 
     
 </dd>
@@ -4473,7 +4483,7 @@ client.sub_accounts.update(
 </details>
 
 ## Billing Transactions
-<details><summary><code>client.billing.transactions.<a href="/lib/wavix/billing/transactions/client.rb">list</a>() -> Wavix::Billing::Transactions::Types::ListTransactionsResponse</code></summary>
+<details><summary><code>client.billing.transactions.<a href="/lib/wavix/billing/transactions/client.rb">list</a>() -> Wavix::Types::BillingTransactionListResponse</code></summary>
 <dl>
 <dd>
 
@@ -4591,7 +4601,7 @@ client.billing.transactions.list(
 </details>
 
 ## Billing Invoices
-<details><summary><code>client.billing.invoices.<a href="/lib/wavix/billing/invoices/client.rb">list</a>() -> Wavix::Billing::Invoices::Types::ListInvoicesResponse</code></summary>
+<details><summary><code>client.billing.invoices.<a href="/lib/wavix/billing/invoices/client.rb">list</a>() -> Wavix::Types::InvoiceListResponse</code></summary>
 <dl>
 <dd>
 
@@ -4727,7 +4737,7 @@ client.billing.invoices.download(id: 1)
 </details>
 
 ## Buy Countries
-<details><summary><code>client.buy.countries.<a href="/lib/wavix/buy/countries/client.rb">list</a>() -> Wavix::Buy::Countries::Types::ListCountriesResponse</code></summary>
+<details><summary><code>client.buy.countries.<a href="/lib/wavix/buy/countries/client.rb">list</a>() -> Wavix::Types::CountryListResponse</code></summary>
 <dl>
 <dd>
 
@@ -4790,7 +4800,7 @@ client.buy.countries.list
 </details>
 
 ## Buy Regions
-<details><summary><code>client.buy.regions.<a href="/lib/wavix/buy/regions/client.rb">list</a>(country_id) -> Wavix::Buy::Regions::Types::ListRegionsResponse</code></summary>
+<details><summary><code>client.buy.regions.<a href="/lib/wavix/buy/regions/client.rb">list</a>(country_id) -> Wavix::Types::RegionListResponse</code></summary>
 <dl>
 <dd>
 
@@ -4861,7 +4871,7 @@ client.buy.regions.list(country_id: 1892)
 </details>
 
 ## Buy Cities
-<details><summary><code>client.buy.cities.<a href="/lib/wavix/buy/cities/client.rb">list</a>(country_id) -> Wavix::Buy::Cities::Types::ListCitiesResponse</code></summary>
+<details><summary><code>client.buy.cities.<a href="/lib/wavix/buy/cities/client.rb">list</a>(country_id) -> Wavix::Types::CityListResponse</code></summary>
 <dl>
 <dd>
 
@@ -4933,7 +4943,7 @@ client.buy.cities.list(country_id: 1891)
 </details>
 
 ## Buy RegionCities
-<details><summary><code>client.buy.region_cities.<a href="/lib/wavix/buy/region_cities/client.rb">list</a>(country_id, region_id) -> Wavix::Buy::RegionCities::Types::ListRegionCitiesResponse</code></summary>
+<details><summary><code>client.buy.region_cities.<a href="/lib/wavix/buy/region_cities/client.rb">list</a>(country_id, region_id) -> Wavix::Types::CityListResponse</code></summary>
 <dl>
 <dd>
 
@@ -5015,7 +5025,7 @@ client.buy.region_cities.list(
 </details>
 
 ## Buy Numbers
-<details><summary><code>client.buy.numbers.<a href="/lib/wavix/buy/numbers/client.rb">list</a>(country_id, city_id) -> Wavix::Buy::Numbers::Types::ListNumbersResponse</code></summary>
+<details><summary><code>client.buy.numbers.<a href="/lib/wavix/buy/numbers/client.rb">list</a>(country_id, city_id) -> Wavix::Types::AvailableNumberListResponse</code></summary>
 <dl>
 <dd>
 
@@ -5125,7 +5135,7 @@ client.buy.numbers.list(
 <dl>
 <dd>
 
-Starts streaming the media of the call identified by `call_id` to the configured destination. Returns the `stream_id`.
+Starts streaming the audio of the call identified by `call_id` to a WebSocket destination you supply, in the direction (`stream_type`) and channel (`stream_channel`) you configure. The destination can be any URL you specify — Wavix does not restrict it. Returns the `stream_id`.
 </dd>
 </dl>
 </dd>
@@ -5290,7 +5300,7 @@ client.call_control.streams.delete(
 <dl>
 <dd>
 
-Plays an audio prompt into the active call identified by `id`.
+Plays an audio prompt into the active call identified by `id`. The audio is audible to the remote party in real time.
 </dd>
 </dl>
 </dd>
@@ -5441,7 +5451,7 @@ Returns the transcription of the recorded call identified by `call_id`, includin
 <dd>
 
 ```ruby
-client.cdrs.transcription.get(call_id: "bbaa37bf-430a-46da-ade3-c248e407016")
+client.cdrs.transcription.get(call_id: "bbaa37bf-430a-46da-ade3-c248e4070160")
 ```
 </dd>
 </dl>
@@ -5710,7 +5720,7 @@ client.numbers.papers.upload
 </details>
 
 ## Profile Config
-<details><summary><code>client.profile.config.<a href="/lib/wavix/profile/config/client.rb">get</a>() -> Wavix::Profile::Config::Types::GetConfigResponse</code></summary>
+<details><summary><code>client.profile.config.<a href="/lib/wavix/profile/config/client.rb">get</a>() -> Wavix::Types::ProfileConfigResponse</code></summary>
 <dl>
 <dd>
 
@@ -5831,7 +5841,7 @@ client.sms_and_mms.sender_ids.list
 <dl>
 <dd>
 
-Creates a Sender ID. Use the 10DLC API to create Sender IDs in the US.
+Creates a Sender ID. Use the 10DLC API to create Sender IDs in the US. Registering a Sender ID incurs a recurring monthly fee, billed to the account balance.
 </dd>
 </dl>
 </dd>
@@ -5988,7 +5998,7 @@ client.sms_and_mms.sender_ids.get(id: "id")
 </dl>
 </details>
 
-<details><summary><code>client.sms_and_mms.sender_ids.<a href="/lib/wavix/sms_and_mms/sender_ids/client.rb">delete</a>(id) -> Wavix::SmsAndMms::SenderIDs::Types::DeleteSenderIDsResponse</code></summary>
+<details><summary><code>client.sms_and_mms.sender_ids.<a href="/lib/wavix/sms_and_mms/sender_ids/client.rb">delete</a>(id) -> Wavix::Types::SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -6158,7 +6168,7 @@ client.sms_and_mms.opt_outs.list(
 </dl>
 </details>
 
-<details><summary><code>client.sms_and_mms.opt_outs.<a href="/lib/wavix/sms_and_mms/opt_outs/client.rb">create</a>(request) -> Wavix::SmsAndMms::OptOuts::Types::CreateOptOutsResponse</code></summary>
+<details><summary><code>client.sms_and_mms.opt_outs.<a href="/lib/wavix/sms_and_mms/opt_outs/client.rb">create</a>(request) -> Wavix::Types::SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -6224,7 +6234,7 @@ client.sms_and_mms.opt_outs.create(opt_out: {
 </details>
 
 ## SmsAndMms Messages
-<details><summary><code>client.sms_and_mms.messages.<a href="/lib/wavix/sms_and_mms/messages/client.rb">list</a>() -> Wavix::SmsAndMms::Messages::Types::ListMessagesResponse</code></summary>
+<details><summary><code>client.sms_and_mms.messages.<a href="/lib/wavix/sms_and_mms/messages/client.rb">list</a>() -> Wavix::Types::MessageListResponse</code></summary>
 <dl>
 <dd>
 
@@ -6379,8 +6389,7 @@ client.sms_and_mms.messages.list(
 <dl>
 <dd>
 
-Sends an SMS or MMS message. MMS is supported for U.S. numbers only. Track delivery using the returned `message_id` and the message status callback.
-**Rate limit**: 20 messages per phone number in 24 hours.
+Sends an SMS or MMS message. MMS is supported for U.S. numbers only. Track delivery using the returned `message_id` and the message status callback. The recipient must be opted in to receive messages from the account; sending to an opted-out number fails.
 </dd>
 </dl>
 </dd>
@@ -6399,8 +6408,7 @@ client.sms_and_mms.messages.send_(
   from: "Wavix",
   to: "+447537151866",
   message_body: {
-    text: "Hi there, this is a message from Wavix",
-    media: nil
+    text: "Hi there, this is a message from Wavix"
   },
   callback_url: "https://you-site.com/webhook",
   validity: 3600,
@@ -6480,7 +6488,7 @@ client.sms_and_mms.messages.send_(
 </dl>
 </details>
 
-<details><summary><code>client.sms_and_mms.messages.<a href="/lib/wavix/sms_and_mms/messages/client.rb">get</a>(id) -> Wavix::SmsAndMms::Messages::Types::GetMessagesResponse</code></summary>
+<details><summary><code>client.sms_and_mms.messages.<a href="/lib/wavix/sms_and_mms/messages/client.rb">get</a>(id) -> Wavix::Types::MessageResponse</code></summary>
 <dl>
 <dd>
 
@@ -6840,7 +6848,7 @@ client.sub_accounts.transactions.list(
 </details>
 
 ## TenDlc Brands
-<details><summary><code>client.ten_dlc.brands.<a href="/lib/wavix/ten_dlc/brands/client.rb">list</a>() -> Wavix::TenDlc::Brands::Types::ListBrandsResponse</code></summary>
+<details><summary><code>client.ten_dlc.brands.<a href="/lib/wavix/ten_dlc/brands/client.rb">list</a>() -> Wavix::Types::TenDlcBrandListResponse</code></summary>
 <dl>
 <dd>
 
@@ -7003,7 +7011,7 @@ client.ten_dlc.brands.list(
 </dl>
 </details>
 
-<details><summary><code>client.ten_dlc.brands.<a href="/lib/wavix/ten_dlc/brands/client.rb">create</a>(request) -> Wavix::TenDlc::Brands::Types::CreateBrandsResponse</code></summary>
+<details><summary><code>client.ten_dlc.brands.<a href="/lib/wavix/ten_dlc/brands/client.rb">create</a>(request) -> Wavix::Types::TenDlcBrand</code></summary>
 <dl>
 <dd>
 
@@ -7015,7 +7023,7 @@ client.ten_dlc.brands.list(
 <dl>
 <dd>
 
-Registers a 10DLC Brand. TCR automatically verifies the brand identity. Only brands with `VERIFIED` or `VETTED_VERIFIED` identity status can register 10DLC Campaigns.
+Registers a 10DLC Brand. Submits the company's legal identity data (EIN/Tax ID, legal company name, contact and address) to The Campaign Registry (TCR), which verifies the brand identity. Charges a 10DLC brand registration fee on successful submission; fails with an insufficient-funds error when the balance cannot cover it. Only brands with `VERIFIED` or `VETTED_VERIFIED` identity status can register 10DLC Campaigns.
 </dd>
 </dl>
 </dd>
@@ -7065,7 +7073,7 @@ client.ten_dlc.brands.create(request: {})
 </dl>
 </details>
 
-<details><summary><code>client.ten_dlc.brands.<a href="/lib/wavix/ten_dlc/brands/client.rb">get</a>(brand_id) -> Wavix::TenDlc::Brands::Types::GetBrandsResponse</code></summary>
+<details><summary><code>client.ten_dlc.brands.<a href="/lib/wavix/ten_dlc/brands/client.rb">get</a>(brand_id) -> Wavix::Types::TenDlcBrand</code></summary>
 <dl>
 <dd>
 
@@ -7127,7 +7135,7 @@ client.ten_dlc.brands.get(brand_id: "BM20QP9")
 </dl>
 </details>
 
-<details><summary><code>client.ten_dlc.brands.<a href="/lib/wavix/ten_dlc/brands/client.rb">update</a>(brand_id, request) -> Wavix::TenDlc::Brands::Types::UpdateBrandsResponse</code></summary>
+<details><summary><code>client.ten_dlc.brands.<a href="/lib/wavix/ten_dlc/brands/client.rb">update</a>(brand_id, request) -> Wavix::Types::TenDlcBrand</code></summary>
 <dl>
 <dd>
 
@@ -7353,7 +7361,7 @@ Business segment the Brand operates in. One of:
 </dl>
 </details>
 
-<details><summary><code>client.ten_dlc.brands.<a href="/lib/wavix/ten_dlc/brands/client.rb">delete</a>(brand_id) -> Wavix::TenDlc::Brands::Types::DeleteBrandsResponse</code></summary>
+<details><summary><code>client.ten_dlc.brands.<a href="/lib/wavix/ten_dlc/brands/client.rb">delete</a>(brand_id) -> Wavix::Types::SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -7415,7 +7423,7 @@ client.ten_dlc.brands.delete(brand_id: "BM20QP9")
 </dl>
 </details>
 
-<details><summary><code>client.ten_dlc.brands.<a href="/lib/wavix/ten_dlc/brands/client.rb">qualify_usecase</a>(brand_id, use_case) -> Wavix::TenDlc::Brands::Types::QualifyUsecaseBrandsResponse</code></summary>
+<details><summary><code>client.ten_dlc.brands.<a href="/lib/wavix/ten_dlc/brands/client.rb">qualify_usecase</a>(brand_id, use_case) -> Wavix::Types::TenDlcBrandQualificationResult</code></summary>
 <dl>
 <dd>
 
@@ -7551,7 +7559,7 @@ client.ten_dlc.brand_appeals.list(brand_id: "BM20QP9")
 </dl>
 </details>
 
-<details><summary><code>client.ten_dlc.brand_appeals.<a href="/lib/wavix/ten_dlc/brand_appeals/client.rb">create</a>(brand_id, request) -> Wavix::TenDlc::BrandAppeals::Types::CreateBrandAppealsResponse</code></summary>
+<details><summary><code>client.ten_dlc.brand_appeals.<a href="/lib/wavix/ten_dlc/brand_appeals/client.rb">create</a>(brand_id, request) -> Wavix::Types::SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -7566,7 +7574,7 @@ client.ten_dlc.brand_appeals.list(brand_id: "BM20QP9")
 Submits an appeal for 10DLC brand identity verification. Provide any additional documentation to support the appeal. Use `appeal_category` to specify the appeal type:
 - `VERIFY_TAX_ID` — Use if the brand is UNVERIFIED due to a tax ID mismatch. Applies to private companies, public companies, non-profits, and government entities.
 - `VERIFY_NON_PROFIT` — Use if a non-profit brand is UNVERIFIED or VERIFIED but missing tax-exempt status.
-- `VERIFY_GOVERNMENT` — Use if a government brand is UNVERIFIED or VERIFIED but missing government entity status.      
+- `VERIFY_GOVERNMENT` — Use if a government brand is UNVERIFIED or VERIFIED but missing government entity status.
 </dd>
 </dl>
 </dd>
@@ -7608,7 +7616,7 @@ client.ten_dlc.brand_appeals.create(
 <dl>
 <dd>
 
-**appeal_categories:** `Internal::Types::Array[String]` — List of appeal categories. Allowed values: `VERIFY_TAX_ID`, `VERIFY_NON_PROFIT`, `VERIFY_GOVERNMENT`
+**appeal_categories:** `Internal::Types::Array[Wavix::TenDlc::BrandAppeals::Types::CreateBrandAppealsRequestAppealCategoriesItem]` — List of appeal categories. Allowed values: `VERIFY_TAX_ID`, `VERIFY_NON_PROFIT`, `VERIFY_GOVERNMENT`
     
 </dd>
 </dl>
@@ -7707,7 +7715,7 @@ client.ten_dlc.brand_evidence.list(brand_id: "B6AI7PA")
 </dl>
 </details>
 
-<details><summary><code>client.ten_dlc.brand_evidence.<a href="/lib/wavix/ten_dlc/brand_evidence/client.rb">upload</a>(brand_id, request) -> Wavix::TenDlc::BrandEvidence::Types::UploadBrandEvidenceResponse</code></summary>
+<details><summary><code>client.ten_dlc.brand_evidence.<a href="/lib/wavix/ten_dlc/brand_evidence/client.rb">upload</a>(brand_id, request) -> Wavix::Types::TenDlcBrandEvidence</code></summary>
 <dl>
 <dd>
 
@@ -7842,7 +7850,7 @@ client.ten_dlc.brand_evidence.get(
 </dl>
 </details>
 
-<details><summary><code>client.ten_dlc.brand_evidence.<a href="/lib/wavix/ten_dlc/brand_evidence/client.rb">delete</a>(brand_id, id) -> Wavix::TenDlc::BrandEvidence::Types::DeleteBrandEvidenceResponse</code></summary>
+<details><summary><code>client.ten_dlc.brand_evidence.<a href="/lib/wavix/ten_dlc/brand_evidence/client.rb">delete</a>(brand_id, id) -> Wavix::Types::SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -7990,7 +7998,7 @@ client.ten_dlc.brand_vettings.list(brand_id: "B6AI7PA")
 <dl>
 <dd>
 
-Requests external vetting for a 10DLC Brand. Supported providers: `AEGIS`, `CV`, `WMC`. Supported classes: `STANDARD`, `ENHANCED`.
+Requests external vetting for a 10DLC Brand. Supported providers: `AEGIS`, `CV`, `WMC`. Supported classes: `STANDARD`, `ENHANCED`. Charges a 10DLC brand vetting fee (Standard or Enhanced); fails with an insufficient-funds error when the balance cannot cover it.
 </dd>
 </dl>
 </dd>
@@ -8214,7 +8222,7 @@ client.ten_dlc.brand_vetting_appeals.list(brand_id: "BMQFB7X")
 </dl>
 </details>
 
-<details><summary><code>client.ten_dlc.brand_vetting_appeals.<a href="/lib/wavix/ten_dlc/brand_vetting_appeals/client.rb">create</a>(brand_id, request) -> Wavix::TenDlc::BrandVettingAppeals::Types::CreateBrandVettingAppealsResponse</code></summary>
+<details><summary><code>client.ten_dlc.brand_vetting_appeals.<a href="/lib/wavix/ten_dlc/brand_vetting_appeals/client.rb">create</a>(brand_id, request) -> Wavix::Types::SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -8268,7 +8276,7 @@ client.ten_dlc.brand_vetting_appeals.create(
 <dl>
 <dd>
 
-**appeal_categories:** `Internal::Types::Array[String]` — List of appeal categories. Allowed values: `VERIFY_TAX_ID`, `VERIFY_NON_PROFIT`, `VERIFY_GOVERNMENT`, `LOW_SCORE`.
+**appeal_categories:** `Internal::Types::Array[Wavix::TenDlc::BrandVettingAppeals::Types::TenDlcBrandVettingAppealCreateRequestAppealCategoriesItem]` — List of appeal categories. Allowed values: `VERIFY_TAX_ID`, `VERIFY_NON_PROFIT`, `VERIFY_GOVERNMENT`, `LOW_SCORE`. `LOW_SCORE` is only valid for vetting appeals — brand identity appeals (`ten_dlc_brand_appeals_create`) do not accept it.
     
 </dd>
 </dl>
@@ -8321,7 +8329,7 @@ client.ten_dlc.brand_vetting_appeals.create(
 </details>
 
 ## TenDlc Campaigns
-<details><summary><code>client.ten_dlc.campaigns.<a href="/lib/wavix/ten_dlc/campaigns/client.rb">list</a>() -> Wavix::TenDlc::Campaigns::Types::ListCampaignsResponse</code></summary>
+<details><summary><code>client.ten_dlc.campaigns.<a href="/lib/wavix/ten_dlc/campaigns/client.rb">list</a>() -> Wavix::Types::TenDlcCampaignListResponse</code></summary>
 <dl>
 <dd>
 
@@ -8448,7 +8456,7 @@ client.ten_dlc.campaigns.list(
 </dl>
 </details>
 
-<details><summary><code>client.ten_dlc.campaigns.<a href="/lib/wavix/ten_dlc/campaigns/client.rb">list_by_brand</a>(brand_id) -> Wavix::TenDlc::Campaigns::Types::ListByBrandCampaignsResponse</code></summary>
+<details><summary><code>client.ten_dlc.campaigns.<a href="/lib/wavix/ten_dlc/campaigns/client.rb">list_by_brand</a>(brand_id) -> Wavix::Types::TenDlcCampaignListResponse</code></summary>
 <dl>
 <dd>
 
@@ -8584,7 +8592,7 @@ client.ten_dlc.campaigns.list_by_brand(
 </dl>
 </details>
 
-<details><summary><code>client.ten_dlc.campaigns.<a href="/lib/wavix/ten_dlc/campaigns/client.rb">create</a>(brand_id, request) -> Wavix::TenDlc::Campaigns::Types::CreateCampaignsResponse</code></summary>
+<details><summary><code>client.ten_dlc.campaigns.<a href="/lib/wavix/ten_dlc/campaigns/client.rb">create</a>(brand_id, request) -> Wavix::Types::TenDlcCampaign</code></summary>
 <dl>
 <dd>
 
@@ -8900,7 +8908,7 @@ client.ten_dlc.campaigns.create(
 </dl>
 </details>
 
-<details><summary><code>client.ten_dlc.campaigns.<a href="/lib/wavix/ten_dlc/campaigns/client.rb">get</a>(brand_id, campaign_id) -> Wavix::TenDlc::Campaigns::Types::GetCampaignsResponse</code></summary>
+<details><summary><code>client.ten_dlc.campaigns.<a href="/lib/wavix/ten_dlc/campaigns/client.rb">get</a>(brand_id, campaign_id) -> Wavix::Types::TenDlcCampaign</code></summary>
 <dl>
 <dd>
 
@@ -8973,7 +8981,7 @@ client.ten_dlc.campaigns.get(
 </dl>
 </details>
 
-<details><summary><code>client.ten_dlc.campaigns.<a href="/lib/wavix/ten_dlc/campaigns/client.rb">update</a>(brand_id, campaign_id, request) -> Wavix::TenDlc::Campaigns::Types::UpdateCampaignsResponse</code></summary>
+<details><summary><code>client.ten_dlc.campaigns.<a href="/lib/wavix/ten_dlc/campaigns/client.rb">update</a>(brand_id, campaign_id, request) -> Wavix::Types::TenDlcCampaign</code></summary>
 <dl>
 <dd>
 
@@ -9254,7 +9262,7 @@ client.ten_dlc.campaigns.update(
 </dl>
 </details>
 
-<details><summary><code>client.ten_dlc.campaigns.<a href="/lib/wavix/ten_dlc/campaigns/client.rb">delete</a>(brand_id, campaign_id) -> Wavix::TenDlc::Campaigns::Types::DeleteCampaignsResponse</code></summary>
+<details><summary><code>client.ten_dlc.campaigns.<a href="/lib/wavix/ten_dlc/campaigns/client.rb">delete</a>(brand_id, campaign_id) -> Wavix::Types::SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -9480,7 +9488,7 @@ client.ten_dlc.subscriptions.list
 </dl>
 </details>
 
-<details><summary><code>client.ten_dlc.subscriptions.<a href="/lib/wavix/ten_dlc/subscriptions/client.rb">create</a>(request) -> Wavix::TenDlc::Subscriptions::Types::CreateSubscriptionsResponse</code></summary>
+<details><summary><code>client.ten_dlc.subscriptions.<a href="/lib/wavix/ten_dlc/subscriptions/client.rb">create</a>(request) -> Wavix::Types::TenDlcEventSubscription</code></summary>
 <dl>
 <dd>
 
@@ -9545,7 +9553,7 @@ client.ten_dlc.subscriptions.create(
 </dl>
 </details>
 
-<details><summary><code>client.ten_dlc.subscriptions.<a href="/lib/wavix/ten_dlc/subscriptions/client.rb">delete</a>() -> Wavix::TenDlc::Subscriptions::Types::DeleteSubscriptionsResponse</code></summary>
+<details><summary><code>client.ten_dlc.subscriptions.<a href="/lib/wavix/ten_dlc/subscriptions/client.rb">delete</a>() -> Wavix::Types::SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -9608,7 +9616,7 @@ client.ten_dlc.subscriptions.delete(subscription_category: "number")
 </details>
 
 ## TenDlc CampaignNumbers
-<details><summary><code>client.ten_dlc.campaign_numbers.<a href="/lib/wavix/ten_dlc/campaign_numbers/client.rb">link</a>(brand_id, campaign_id, number) -> Wavix::TenDlc::CampaignNumbers::Types::LinkCampaignNumbersResponse</code></summary>
+<details><summary><code>client.ten_dlc.campaign_numbers.<a href="/lib/wavix/ten_dlc/campaign_numbers/client.rb">link</a>(brand_id, campaign_id, number) -> Wavix::Types::SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -9690,7 +9698,7 @@ client.ten_dlc.campaign_numbers.link(
 </dl>
 </details>
 
-<details><summary><code>client.ten_dlc.campaign_numbers.<a href="/lib/wavix/ten_dlc/campaign_numbers/client.rb">unlink</a>(brand_id, campaign_id, number) -> Wavix::TenDlc::CampaignNumbers::Types::UnlinkCampaignNumbersResponse</code></summary>
+<details><summary><code>client.ten_dlc.campaign_numbers.<a href="/lib/wavix/ten_dlc/campaign_numbers/client.rb">unlink</a>(brand_id, campaign_id, number) -> Wavix::Types::SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -9772,7 +9780,7 @@ client.ten_dlc.campaign_numbers.unlink(
 </dl>
 </details>
 
-<details><summary><code>client.ten_dlc.campaign_numbers.<a href="/lib/wavix/ten_dlc/campaign_numbers/client.rb">list</a>(brand_id, campaign_id) -> Wavix::TenDlc::CampaignNumbers::Types::ListCampaignNumbersResponse</code></summary>
+<details><summary><code>client.ten_dlc.campaign_numbers.<a href="/lib/wavix/ten_dlc/campaign_numbers/client.rb">list</a>(brand_id, campaign_id) -> Wavix::Types::TenDlcCampaignNumberListResponse</code></summary>
 <dl>
 <dd>
 
@@ -9846,7 +9854,7 @@ client.ten_dlc.campaign_numbers.list(
 </details>
 
 ## TwoFa Verification
-<details><summary><code>client.two_fa.verification.<a href="/lib/wavix/two_fa/verification/client.rb">create</a>(request) -> Wavix::TwoFa::Verification::Types::CreateVerificationResponse</code></summary>
+<details><summary><code>client.two_fa.verification.<a href="/lib/wavix/two_fa/verification/client.rb">create</a>(request) -> Wavix::Types::TwoFactorVerificationResponse</code></summary>
 <dl>
 <dd>
 
@@ -9858,7 +9866,7 @@ client.ten_dlc.campaign_numbers.list(
 <dl>
 <dd>
 
-Creates a 2FA verification and sends a one-time password (OTP) to the destination phone number over the selected channel. Requires a 2FA service configured in the Wavix portal; the service is reused to generate and validate OTPs.
+Creates a 2FA verification and sends a real one-time password (OTP) to the destination phone number over the selected channel; this bills the account per OTP sent. Requires a 2FA service configured in the Wavix portal; the service is reused to generate and validate OTPs.
 
 The verification proceeds through three steps:
 1. Create a verification to generate and send an OTP.
@@ -9933,7 +9941,7 @@ client.two_fa.verification.create(
 </dl>
 </details>
 
-<details><summary><code>client.two_fa.verification.<a href="/lib/wavix/two_fa/verification/client.rb">resend</a>(session_id, request) -> Wavix::TwoFa::Verification::Types::ResendVerificationResponse</code></summary>
+<details><summary><code>client.two_fa.verification.<a href="/lib/wavix/two_fa/verification/client.rb">resend</a>(session_id, request) -> Wavix::Types::TwoFactorVerificationResendResponse</code></summary>
 <dl>
 <dd>
 
@@ -10006,7 +10014,7 @@ client.two_fa.verification.resend(
 </dl>
 </details>
 
-<details><summary><code>client.two_fa.verification.<a href="/lib/wavix/two_fa/verification/client.rb">check</a>(session_id, request) -> Wavix::TwoFa::Verification::Types::CheckVerificationResponse</code></summary>
+<details><summary><code>client.two_fa.verification.<a href="/lib/wavix/two_fa/verification/client.rb">check</a>(session_id, request) -> Wavix::Types::TwoFactorVerificationCheckResponse</code></summary>
 <dl>
 <dd>
 
@@ -10018,7 +10026,7 @@ client.two_fa.verification.resend(
 <dl>
 <dd>
 
-Validates the OTP submitted by the end user against the verification identified by `session_id`.
+Validates the OTP submitted by the end user against the verification identified by `session_id`. Non-idempotent — each call consumes one of a limited number of attempts tracked server-side; once exhausted, the verification returns `429` until a new verification is created.
 </dd>
 </dl>
 </dd>
@@ -10300,7 +10308,7 @@ client.two_fa.events.list(session_id: "8753d4308f2e11ecb75fcdafd6d2d690")
 <dl>
 <dd>
 
-Returns a paginated list of active Wavix Embeddable widget tokens for the authenticated account.
+Returns a paginated list of Wavix Embeddable widget tokens for the authenticated account.
 </dd>
 </dl>
 </dd>
@@ -10326,6 +10334,22 @@ client.webrtc.tokens.list
 
 <dl>
 <dd>
+
+<dl>
+<dd>
+
+**page:** `Integer` — Page number to retrieve. Default `1`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**per_page:** `Integer` — Number of records to return per page. Default `25`.
+    
+</dd>
+</dl>
 
 <dl>
 <dd>
@@ -10404,7 +10428,7 @@ client.webrtc.tokens.create(
 <dl>
 <dd>
 
-**ttl:** `Integer` — Time to live in seconds. Pass `null` for no expiration.
+**ttl:** `Integer` — Time to live in seconds. Default `3600`. Pass `null` for no expiration.
     
 </dd>
 </dl>

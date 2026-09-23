@@ -44,7 +44,8 @@ module Wavix
         end
 
         # Requests external vetting for a 10DLC Brand. Supported providers: `AEGIS`, `CV`, `WMC`. Supported classes:
-        # `STANDARD`, `ENHANCED`.
+        # `STANDARD`, `ENHANCED`. Charges a 10DLC brand vetting fee (Standard or Enhanced); fails with an
+        # insufficient-funds error when the balance cannot cover it.
         #
         # @param request_options [Hash]
         # @param params [Wavix::TenDlc::BrandVettings::Types::TenDlcBrandVettingCreateRequest]

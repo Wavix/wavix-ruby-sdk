@@ -17,9 +17,9 @@ module Wavix
 
           field :embedded_links, -> { Internal::Types::Boolean }, optional: false, nullable: false
 
-          field :embedded_phones, -> { Internal::Types::Boolean }, optional: false, nullable: true
+          field :embedded_phones, -> { Internal::Types::Boolean }, optional: true, nullable: false
 
-          field :embedded_link_sample, -> { String }, optional: false, nullable: true
+          field :embedded_link_sample, -> { String }, optional: true, nullable: false
 
           field :description, -> { String }, optional: false, nullable: false
 
@@ -47,13 +47,13 @@ module Wavix
 
           field :sample1, -> { String }, optional: false, nullable: false
 
-          field :sample2, -> { String }, optional: false, nullable: true
+          field :sample2, -> { String }, optional: true, nullable: false
 
-          field :sample3, -> { String }, optional: false, nullable: true
+          field :sample3, -> { String }, optional: true, nullable: false
 
-          field :sample4, -> { String }, optional: false, nullable: true
+          field :sample4, -> { String }, optional: true, nullable: false
 
-          field :sample5, -> { String }, optional: false, nullable: true
+          field :sample5, -> { String }, optional: true, nullable: false
 
           field :mock, -> { Internal::Types::Boolean }, optional: false, nullable: false
 

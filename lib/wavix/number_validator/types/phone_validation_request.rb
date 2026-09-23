@@ -8,9 +8,9 @@ module Wavix
 
         field :type, -> { Wavix::Types::PhoneNumberValidationType }, optional: false, nullable: false
 
-        field :async, -> { Internal::Types::Boolean }, optional: false, nullable: false
+        field :async, -> { Internal::Types::Boolean }, optional: true, nullable: false
 
-        field :force, -> { Internal::Types::Boolean }, optional: false, nullable: false
+        field :force, -> { Internal::Types::Boolean }, optional: true, nullable: false
       end
     end
   end

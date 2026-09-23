@@ -130,7 +130,7 @@ module Wavix
         end
       end
 
-      # Deletes the call recording identified by `id`. Deletion is permanent and removes the recording file.
+      # Deletes the call recording identified by `id`. Deletion is permanent — the audio file is unrecoverable.
       #
       # @param request_options [Hash]
       # @param params [Hash]
