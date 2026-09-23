@@ -7,7 +7,7 @@ module Wavix
         class TenDlcBrandVettingAppealCreateRequest < Internal::Types::Model
           field :brand_id, -> { String }, optional: false, nullable: false
 
-          field :appeal_categories, -> { Internal::Types::Array[String] }, optional: false, nullable: false
+          field :appeal_categories, -> { Internal::Types::Array[Wavix::TenDlc::BrandVettingAppeals::Types::TenDlcBrandVettingAppealCreateRequestAppealCategoriesItem] }, optional: false, nullable: false
 
           field :evidence, -> { Internal::Types::Array[String] }, optional: false, nullable: false
 

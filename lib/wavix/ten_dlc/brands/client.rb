@@ -34,7 +34,7 @@ module Wavix
         # @option params [Integer, nil] :page
         # @option params [Integer, nil] :per_page
         #
-        # @return [Wavix::TenDlc::Brands::Types::ListBrandsResponse]
+        # @return [Wavix::Types::TenDlcBrandListResponse]
         def list(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           query_params = {}
@@ -65,15 +65,17 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TenDlc::Brands::Types::ListBrandsResponse.load(response.body)
+            Wavix::Types::TenDlcBrandListResponse.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)
           end
         end
 
-        # Registers a 10DLC Brand. TCR automatically verifies the brand identity. Only brands with `VERIFIED` or
-        # `VETTED_VERIFIED` identity status can register 10DLC Campaigns.
+        # Registers a 10DLC Brand. Submits the company's legal identity data (EIN/Tax ID, legal company name, contact
+        # and address) to The Campaign Registry (TCR), which verifies the brand identity. Charges a 10DLC brand
+        # registration fee on successful submission; fails with an insufficient-funds error when the balance cannot
+        # cover it. Only brands with `VERIFIED` or `VETTED_VERIFIED` identity status can register 10DLC Campaigns.
         #
         # @param request_options [Hash]
         # @param params [Wavix::Types::TenDlcBrandCreateRequest]
@@ -83,7 +85,7 @@ module Wavix
         # @option request_options [Hash{String => Object}] :additional_body_parameters
         # @option request_options [Integer] :timeout_in_seconds
         #
-        # @return [Wavix::TenDlc::Brands::Types::CreateBrandsResponse]
+        # @return [Wavix::Types::TenDlcBrand]
         def create(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           request = Wavix::Internal::JSON::Request.new(
@@ -100,7 +102,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TenDlc::Brands::Types::CreateBrandsResponse.load(response.body)
+            Wavix::Types::TenDlcBrand.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)
@@ -118,7 +120,7 @@ module Wavix
         # @option request_options [Integer] :timeout_in_seconds
         # @option params [String] :brand_id
         #
-        # @return [Wavix::TenDlc::Brands::Types::GetBrandsResponse]
+        # @return [Wavix::Types::TenDlcBrand]
         def get(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           request = Wavix::Internal::JSON::Request.new(
@@ -134,7 +136,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TenDlc::Brands::Types::GetBrandsResponse.load(response.body)
+            Wavix::Types::TenDlcBrand.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)
@@ -154,7 +156,7 @@ module Wavix
         # @option request_options [Integer] :timeout_in_seconds
         # @option params [String] :brand_id
         #
-        # @return [Wavix::TenDlc::Brands::Types::UpdateBrandsResponse]
+        # @return [Wavix::Types::TenDlcBrand]
         def update(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           request_data = Wavix::TenDlc::Brands::Types::TenDlcBrandUpdateRequest.new(params).to_h
@@ -175,7 +177,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TenDlc::Brands::Types::UpdateBrandsResponse.load(response.body)
+            Wavix::Types::TenDlcBrand.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)
@@ -193,7 +195,7 @@ module Wavix
         # @option request_options [Integer] :timeout_in_seconds
         # @option params [String] :brand_id
         #
-        # @return [Wavix::TenDlc::Brands::Types::DeleteBrandsResponse]
+        # @return [Wavix::Types::SuccessResponse]
         def delete(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           request = Wavix::Internal::JSON::Request.new(
@@ -209,7 +211,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TenDlc::Brands::Types::DeleteBrandsResponse.load(response.body)
+            Wavix::Types::SuccessResponse.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)
@@ -229,7 +231,7 @@ module Wavix
         # @option params [String] :brand_id
         # @option params [Wavix::TenDlc::Brands::Types::QualifyUsecaseBrandsRequestUseCase] :use_case
         #
-        # @return [Wavix::TenDlc::Brands::Types::QualifyUsecaseBrandsResponse]
+        # @return [Wavix::Types::TenDlcBrandQualificationResult]
         def qualify_usecase(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           request = Wavix::Internal::JSON::Request.new(
@@ -245,7 +247,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TenDlc::Brands::Types::QualifyUsecaseBrandsResponse.load(response.body)
+            Wavix::Types::TenDlcBrandQualificationResult.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)

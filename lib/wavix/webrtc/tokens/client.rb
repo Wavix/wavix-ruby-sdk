@@ -11,22 +11,30 @@ module Wavix
           @client = client
         end
 
-        # Returns a paginated list of active Wavix Embeddable widget tokens for the authenticated account.
+        # Returns a paginated list of Wavix Embeddable widget tokens for the authenticated account.
         #
         # @param request_options [Hash]
-        # @param _params [Hash]
+        # @param params [Hash]
         # @option request_options [String] :base_url
         # @option request_options [Hash{String => Object}] :additional_headers
         # @option request_options [Hash{String => Object}] :additional_query_parameters
         # @option request_options [Hash{String => Object}] :additional_body_parameters
         # @option request_options [Integer] :timeout_in_seconds
+        # @option params [Integer, nil] :page
+        # @option params [Integer, nil] :per_page
         #
         # @return [Wavix::Types::WebRtcTokensListResponse]
-        def list(request_options: {}, **_params)
+        def list(request_options: {}, **params)
+          params = Wavix::Internal::Types::Utils.normalize_keys(params)
+          query_params = {}
+          query_params["page"] = params[:page] if params.key?(:page)
+          query_params["per_page"] = params[:per_page] if params.key?(:per_page)
+
           request = Wavix::Internal::JSON::Request.new(
             base_url: request_options[:base_url],
             method: "GET",
             path: "v2/webrtc/tokens",
+            query: query_params,
             request_options: request_options
           )
           begin

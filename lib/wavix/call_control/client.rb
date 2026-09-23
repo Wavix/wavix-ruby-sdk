@@ -42,7 +42,7 @@ module Wavix
         end
       end
 
-      # Places an outbound call. Returns the call with its `uuid` for tracking and control.
+      # Places a real, billable outbound PSTN call. Returns the call with its `uuid` for tracking and control.
       #
       # @param request_options [Hash]
       # @param params [Wavix::CallControl::Types::CallRequest]
@@ -110,7 +110,7 @@ module Wavix
         end
       end
 
-      # Ends the active call identified by `id` by hanging up.
+      # Ends the active call identified by `id` by hanging up. Irreversible — the call cannot be resumed once ended.
       #
       # @param request_options [Hash]
       # @param params [Hash]
@@ -183,7 +183,8 @@ module Wavix
         end
       end
 
-      # Answers the inbound call identified by `id`. Optionally starts media streaming on answer.
+      # Answers the inbound call identified by `id`. Optionally starts recording, post-call transcription, or live media
+      # streaming on answer.
       #
       # @param request_options [Hash]
       # @param params [Wavix::CallControl::Types::CallAnswerRequest]

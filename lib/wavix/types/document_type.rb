@@ -2,12 +2,12 @@
 
 module Wavix
   module Types
-    class DocumentType < Internal::Types::Model
-      field :id, -> { Integer }, optional: false, nullable: false
+    module DocumentType
+      extend Wavix::Internal::Types::Enum
 
-      field :name, -> { String }, optional: false, nullable: false
-
-      field :title, -> { String }, optional: false, nullable: false
+      ID = "id"
+      ADDRESS = "address"
+      LOCALADDRESS = "localaddress"
     end
   end
 end

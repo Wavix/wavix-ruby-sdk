@@ -57,7 +57,7 @@ module Wavix
         # @option request_options [Integer] :timeout_in_seconds
         # @option params [String] :brand_id
         #
-        # @return [Wavix::TenDlc::BrandEvidence::Types::UploadBrandEvidenceResponse]
+        # @return [Wavix::Types::TenDlcBrandEvidence]
         def upload(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           body = Internal::Multipart::FormData.new
@@ -78,7 +78,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TenDlc::BrandEvidence::Types::UploadBrandEvidenceResponse.load(response.body)
+            Wavix::Types::TenDlcBrandEvidence.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)
@@ -130,7 +130,7 @@ module Wavix
         # @option params [String] :brand_id
         # @option params [String] :id
         #
-        # @return [Wavix::TenDlc::BrandEvidence::Types::DeleteBrandEvidenceResponse]
+        # @return [Wavix::Types::SuccessResponse]
         def delete(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           request = Wavix::Internal::JSON::Request.new(
@@ -146,7 +146,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TenDlc::BrandEvidence::Types::DeleteBrandEvidenceResponse.load(response.body)
+            Wavix::Types::SuccessResponse.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)

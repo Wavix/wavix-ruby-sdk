@@ -9,13 +9,13 @@ module Wavix
 
       field :request_id, -> { String }, optional: false, nullable: false
 
-      field :language, -> { Wavix::Types::FileTranscriptionResponseLanguage }, optional: false, nullable: false
+      field :language, -> { Wavix::Types::TranscriptionLanguage }, optional: false, nullable: true
 
       field :duration, -> { Integer }, optional: false, nullable: true
 
       field :charge, -> { String }, optional: false, nullable: false
 
-      field :status, -> { Wavix::Types::FileTranscriptionResponseStatus }, optional: false, nullable: false
+      field :status, -> { Wavix::Types::TranscriptionStatus }, optional: false, nullable: false
 
       field :transcription_date, -> { String }, optional: false, nullable: false
 

@@ -23,7 +23,7 @@ module Wavix
 
       field :call_limit, -> { Integer }, optional: true, nullable: false
 
-      field :cost_limit, -> { Internal::Types::Boolean }, optional: false, nullable: false
+      field :cost_limit, -> { Internal::Types::Boolean }, optional: true, nullable: false
 
       field :max_call_cost, -> { Integer }, optional: true, nullable: false
 

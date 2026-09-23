@@ -19,7 +19,7 @@ module Wavix
 
       field :ein_taxid_country, -> { String }, optional: false, nullable: false
 
-      field :status, -> { Wavix::Types::TenDlcBrandStatus }, optional: false, nullable: false
+      field :status, -> { Wavix::Types::TenDlcBrandIdentityVerificationStatus }, optional: false, nullable: false
 
       field :website, -> { String }, optional: true, nullable: false
 

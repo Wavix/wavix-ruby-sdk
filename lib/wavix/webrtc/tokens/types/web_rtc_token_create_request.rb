@@ -9,7 +9,7 @@ module Wavix
 
           field :payload, -> { Internal::Types::Hash[String, Object] }, optional: true, nullable: false
 
-          field :ttl, -> { Integer }, optional: false, nullable: true
+          field :ttl, -> { Integer }, optional: true, nullable: false
         end
       end
     end

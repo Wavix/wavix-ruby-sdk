@@ -34,7 +34,7 @@ module Wavix
       # @option request_options [Hash{String => Object}] :additional_body_parameters
       # @option request_options [Integer] :timeout_in_seconds
       #
-      # @return [Wavix::SpeechAnalytics::Types::CreateSpeechAnalyticsResponse]
+      # @return [Wavix::Types::SubmitFileTranscriptionResponse]
       def create(request_options: {}, **params)
         params = Wavix::Internal::Types::Utils.normalize_keys(params)
         body = Internal::Multipart::FormData.new
@@ -67,7 +67,7 @@ module Wavix
         end
         code = response.code.to_i
         if code.between?(200, 299)
-          Wavix::SpeechAnalytics::Types::CreateSpeechAnalyticsResponse.load(response.body)
+          Wavix::Types::SubmitFileTranscriptionResponse.load(response.body)
         else
           error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
           raise error_class.new(response.body, code: code)
@@ -86,7 +86,7 @@ module Wavix
       # @option request_options [Integer] :timeout_in_seconds
       # @option params [String] :request_id
       #
-      # @return [Wavix::SpeechAnalytics::Types::GetSpeechAnalyticsResponse]
+      # @return [Wavix::Types::FileTranscriptionResponse]
       def get(request_options: {}, **params)
         params = Wavix::Internal::Types::Utils.normalize_keys(params)
         request = Wavix::Internal::JSON::Request.new(
@@ -102,7 +102,7 @@ module Wavix
         end
         code = response.code.to_i
         if code.between?(200, 299)
-          Wavix::SpeechAnalytics::Types::GetSpeechAnalyticsResponse.load(response.body)
+          Wavix::Types::FileTranscriptionResponse.load(response.body)
         else
           error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
           raise error_class.new(response.body, code: code)

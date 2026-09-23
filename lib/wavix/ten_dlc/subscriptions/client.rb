@@ -51,7 +51,7 @@ module Wavix
         # @option request_options [Hash{String => Object}] :additional_body_parameters
         # @option request_options [Integer] :timeout_in_seconds
         #
-        # @return [Wavix::TenDlc::Subscriptions::Types::CreateSubscriptionsResponse]
+        # @return [Wavix::Types::TenDlcEventSubscription]
         def create(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           request = Wavix::Internal::JSON::Request.new(
@@ -68,7 +68,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TenDlc::Subscriptions::Types::CreateSubscriptionsResponse.load(response.body)
+            Wavix::Types::TenDlcEventSubscription.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)
@@ -86,7 +86,7 @@ module Wavix
         # @option request_options [Integer] :timeout_in_seconds
         # @option params [String] :subscription_category
         #
-        # @return [Wavix::TenDlc::Subscriptions::Types::DeleteSubscriptionsResponse]
+        # @return [Wavix::Types::SuccessResponse]
         def delete(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           query_params = {}
@@ -106,7 +106,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TenDlc::Subscriptions::Types::DeleteSubscriptionsResponse.load(response.body)
+            Wavix::Types::SuccessResponse.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)

@@ -11,7 +11,8 @@ module Wavix
           @client = client
         end
 
-        # Plays an audio prompt into the active call identified by `id`.
+        # Plays an audio prompt into the active call identified by `id`. The audio is audible to the remote party in
+        # real time.
         #
         # @param request_options [Hash]
         # @param params [Wavix::CallControl::Audio::Types::CallAudioPlayRequest]

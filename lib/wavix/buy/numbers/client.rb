@@ -26,7 +26,7 @@ module Wavix
         # @option params [Integer, nil] :page
         # @option params [Integer, nil] :per_page
         #
-        # @return [Wavix::Buy::Numbers::Types::ListNumbersResponse]
+        # @return [Wavix::Types::AvailableNumberListResponse]
         def list(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           query_params = {}
@@ -48,7 +48,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::Buy::Numbers::Types::ListNumbersResponse.load(response.body)
+            Wavix::Types::AvailableNumberListResponse.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)

@@ -3,9 +3,9 @@
 module Wavix
   module Types
     class UnprocessableEntityErrorBody < Internal::Types::Model
-      field :success, -> { Internal::Types::Boolean }, optional: false, nullable: false
+      field :error, -> { String }, optional: true, nullable: false
 
-      field :message, -> { String }, optional: false, nullable: false
+      field :error_dids, -> { Internal::Types::Array[String] }, optional: true, nullable: false
     end
   end
 end

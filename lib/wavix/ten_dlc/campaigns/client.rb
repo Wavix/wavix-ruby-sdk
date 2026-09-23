@@ -30,7 +30,7 @@ module Wavix
         # @option params [Integer, nil] :page
         # @option params [Integer, nil] :per_page
         #
-        # @return [Wavix::TenDlc::Campaigns::Types::ListCampaignsResponse]
+        # @return [Wavix::Types::TenDlcCampaignListResponse]
         def list(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           query_params = {}
@@ -57,7 +57,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TenDlc::Campaigns::Types::ListCampaignsResponse.load(response.body)
+            Wavix::Types::TenDlcCampaignListResponse.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)
@@ -83,7 +83,7 @@ module Wavix
         # @option params [Integer, nil] :page
         # @option params [Integer, nil] :per_page
         #
-        # @return [Wavix::TenDlc::Campaigns::Types::ListByBrandCampaignsResponse]
+        # @return [Wavix::Types::TenDlcCampaignListResponse]
         def list_by_brand(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           query_params = {}
@@ -110,7 +110,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TenDlc::Campaigns::Types::ListByBrandCampaignsResponse.load(response.body)
+            Wavix::Types::TenDlcCampaignListResponse.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)
@@ -129,7 +129,7 @@ module Wavix
         # @option request_options [Integer] :timeout_in_seconds
         # @option params [String] :brand_id
         #
-        # @return [Wavix::TenDlc::Campaigns::Types::CreateCampaignsResponse]
+        # @return [Wavix::Types::TenDlcCampaign]
         def create(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           request_data = Wavix::TenDlc::Campaigns::Types::TenDlcCampaignCreateRequest.new(params).to_h
@@ -150,7 +150,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TenDlc::Campaigns::Types::CreateCampaignsResponse.load(response.body)
+            Wavix::Types::TenDlcCampaign.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)
@@ -169,7 +169,7 @@ module Wavix
         # @option params [String] :brand_id
         # @option params [String] :campaign_id
         #
-        # @return [Wavix::TenDlc::Campaigns::Types::GetCampaignsResponse]
+        # @return [Wavix::Types::TenDlcCampaign]
         def get(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           request = Wavix::Internal::JSON::Request.new(
@@ -185,7 +185,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TenDlc::Campaigns::Types::GetCampaignsResponse.load(response.body)
+            Wavix::Types::TenDlcCampaign.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)
@@ -204,7 +204,7 @@ module Wavix
         # @option params [String] :brand_id
         # @option params [String] :campaign_id
         #
-        # @return [Wavix::TenDlc::Campaigns::Types::UpdateCampaignsResponse]
+        # @return [Wavix::Types::TenDlcCampaign]
         def update(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           request_data = Wavix::TenDlc::Campaigns::Types::TenDlcCampaignUpdateRequest.new(params).to_h
@@ -225,7 +225,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TenDlc::Campaigns::Types::UpdateCampaignsResponse.load(response.body)
+            Wavix::Types::TenDlcCampaign.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)
@@ -244,7 +244,7 @@ module Wavix
         # @option params [String] :brand_id
         # @option params [String] :campaign_id
         #
-        # @return [Wavix::TenDlc::Campaigns::Types::DeleteCampaignsResponse]
+        # @return [Wavix::Types::SuccessResponse]
         def delete(request_options: {}, **params)
           params = Wavix::Internal::Types::Utils.normalize_keys(params)
           request = Wavix::Internal::JSON::Request.new(
@@ -260,7 +260,7 @@ module Wavix
           end
           code = response.code.to_i
           if code.between?(200, 299)
-            Wavix::TenDlc::Campaigns::Types::DeleteCampaignsResponse.load(response.body)
+            Wavix::Types::SuccessResponse.load(response.body)
           else
             error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
             raise error_class.new(response.body, code: code)

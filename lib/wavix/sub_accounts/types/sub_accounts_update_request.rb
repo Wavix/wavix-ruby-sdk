@@ -6,7 +6,7 @@ module Wavix
       class SubAccountsUpdateRequest < Internal::Types::Model
         field :id, -> { Integer }, optional: false, nullable: false
 
-        field :name, -> { String }, optional: false, nullable: false
+        field :name, -> { String }, optional: true, nullable: false
 
         field :status, -> { Wavix::SubAccounts::Types::SubAccountsUpdateRequestStatus }, optional: true, nullable: false
 

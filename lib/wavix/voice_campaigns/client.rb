@@ -10,8 +10,8 @@ module Wavix
         @client = client
       end
 
-      # Launches a voice campaign that places an outbound call using a pre-configured scenario. Track progress with the
-      # returned voice campaign `id`.
+      # Launches a voice campaign that places a real outbound call using a pre-configured scenario. Track progress with
+      # the returned voice campaign `id`.
       #
       # @param request_options [Hash]
       # @param params [Wavix::VoiceCampaigns::Types::CreateVoiceCampaignsRequest]
