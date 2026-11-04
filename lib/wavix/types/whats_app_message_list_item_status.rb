@@ -5,7 +5,6 @@ module Wavix
     module WhatsAppMessageListItemStatus
       extend Wavix::Internal::Types::Enum
 
-      FAILED = "failed"
       SENT = "sent"
       DELIVERED = "delivered"
       UNDELIVERED = "undelivered"

@@ -5,6 +5,8 @@ module Wavix
     module Types
       class DeleteCallWebhooksRequest < Internal::Types::Model
         field :event_type, -> { Wavix::CallWebhooks::Types::DeleteCallWebhooksRequestEventType }, optional: false, nullable: false
+
+        field :expected_url, -> { String }, optional: true, nullable: false
       end
     end
   end

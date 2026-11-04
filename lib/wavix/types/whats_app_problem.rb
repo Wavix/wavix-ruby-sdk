@@ -2,7 +2,8 @@
 
 module Wavix
   module Types
-    # RFC 9457 problem document returned by WhatsApp endpoints as `application/problem+json`.
+    # An RFC 9457 problem document that describes an error from the WhatsApp API. Returned with the
+    # `application/problem+json` content type.
     class WhatsAppProblem < Internal::Types::Model
       field :type, -> { String }, optional: false, nullable: false
 

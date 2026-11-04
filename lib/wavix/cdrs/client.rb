@@ -102,7 +102,8 @@ module Wavix
       end
 
       # Transcribes the recording of the call identified by `call_id`. Transcription is asynchronous; poll the
-      # transcription endpoint for the result. Billed per minute at the account's call-transcription rate; fails with an
+      # transcription endpoint for the result. When it completes, the new transcription replaces any earlier one that
+      # the transcription endpoints return. Billed per minute at the account's call-transcription rate; fails with an
       # insufficient-funds error when the balance cannot cover it.
       #
       # @param request_options [Hash]
