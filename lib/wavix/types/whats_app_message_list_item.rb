@@ -2,6 +2,8 @@
 
 module Wavix
   module Types
+    # A WhatsApp message your account sent or received. Returned by `whatsapp_messages_list` and
+    # `whatsapp_messages_get`.
     class WhatsAppMessageListItem < Internal::Types::Model
       field :uuid, -> { String }, optional: false, nullable: false
 
@@ -13,7 +15,7 @@ module Wavix
 
       field :to, -> { String }, optional: false, nullable: false
 
-      field :country, -> { String }, optional: true, nullable: false
+      field :country, -> { String }, optional: false, nullable: true
 
       field :created_at, -> { String }, optional: false, nullable: false
     end

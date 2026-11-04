@@ -7,6 +7,8 @@ module Wavix
         field :url, -> { String }, optional: false, nullable: false
 
         field :event_type, -> { Wavix::CallWebhooks::Types::CallWebhooksCreateRequestEventType }, optional: false, nullable: false
+
+        field :expected_url, -> { String }, optional: true, nullable: false
       end
     end
   end

@@ -53,7 +53,7 @@ module Wavix
       # Creates a SIP trunk for routing inbound and outbound calls. Returns the trunk with its generated `access_token`.
       #
       # @param request_options [Hash]
-      # @param params [Wavix::Types::SipTrunkCreateRequest]
+      # @param params [Wavix::SipTrunks::Types::SipTrunkCreateRequest]
       # @option request_options [String] :base_url
       # @option request_options [Hash{String => Object}] :additional_headers
       # @option request_options [Hash{String => Object}] :additional_query_parameters
@@ -67,7 +67,7 @@ module Wavix
           base_url: request_options[:base_url],
           method: "POST",
           path: "v1/trunks",
-          body: Wavix::Types::SipTrunkCreateRequest.new(params).to_h,
+          body: Wavix::SipTrunks::Types::SipTrunkCreateRequest.new(params).to_h,
           request_options: request_options
         )
         begin
@@ -118,10 +118,11 @@ module Wavix
         end
       end
 
-      # Replaces the configuration of the SIP trunk identified by `id`. Omitted fields revert to their defaults.
+      # Updates the SIP trunk identified by `id`. Only the provided fields are changed. On trial accounts, every update
+      # also applies the trial limits: a `call_limit` of at most 300 seconds (300 when omitted) and one concurrent call.
       #
       # @param request_options [Hash]
-      # @param params [Wavix::Types::SipTrunkCreateRequest]
+      # @param params [Wavix::SipTrunks::Types::SipTrunkUpdateRequest]
       # @option request_options [String] :base_url
       # @option request_options [Hash{String => Object}] :additional_headers
       # @option request_options [Hash{String => Object}] :additional_query_parameters
@@ -132,14 +133,15 @@ module Wavix
       # @return [Wavix::Types::SipTrunkResponse]
       def update(request_options: {}, **params)
         params = Wavix::Internal::Types::Utils.normalize_keys(params)
-        path_param_names = %i[id]
-        body_params = params.except(*path_param_names)
+        request_data = Wavix::SipTrunks::Types::SipTrunkUpdateRequest.new(params).to_h
+        non_body_param_names = %w[id]
+        body = request_data.except(*non_body_param_names)
 
         request = Wavix::Internal::JSON::Request.new(
           base_url: request_options[:base_url],
           method: "PUT",
           path: "v1/trunks/#{URI.encode_uri_component(params[:id].to_s)}",
-          body: Wavix::Types::SipTrunkCreateRequest.new(body_params).to_h,
+          body: body,
           request_options: request_options
         )
         begin

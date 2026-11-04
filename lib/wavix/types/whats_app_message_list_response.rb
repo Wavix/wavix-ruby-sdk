@@ -2,6 +2,7 @@
 
 module Wavix
   module Types
+    # Returned by `whatsapp_messages_list`.
     class WhatsAppMessageListResponse < Internal::Types::Model
       field :messages, -> { Internal::Types::Array[Wavix::Types::WhatsAppMessageListItem] }, optional: false, nullable: false
 

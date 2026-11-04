@@ -47,6 +47,11 @@ module Wavix
       # event occurs. Creates persistent configuration that forwards call metadata to the URL on every matching call
       # until the webhook is deleted.
       #
+      # **Behavior:** Without `expected_url`, the webhook is set to `url` whatever it was before. With `expected_url`,
+      # the webhook is set only while it currently has that URL; an empty string matches an unset webhook. Otherwise the
+      # call returns `409` and the webhook is unchanged. Setting the URL the webhook already has succeeds. If the call
+      # returns a `Something went wrong` error, the webhook is unchanged and you can retry the request.
+      #
       # @param request_options [Hash]
       # @param params [Wavix::CallWebhooks::Types::CallWebhooksCreateRequest]
       # @option request_options [String] :base_url
@@ -81,6 +86,12 @@ module Wavix
 
       # Removes the call webhook for the given event type. Wavix stops sending callbacks for that event.
       #
+      # **Behavior:** Without `expected_url`, the webhook is cleared whatever URL it has. With `expected_url`, the
+      # webhook is cleared only while it currently has that URL; an empty value matches an unset webhook. Otherwise the
+      # call returns `409` and the webhook is unchanged. Clearing an unset webhook succeeds. Percent-encode the
+      # `expected_url` value in the query string. If the call returns a `Something went wrong` error, the webhook is
+      # unchanged and you can retry the request.
+      #
       # @param request_options [Hash]
       # @param params [Hash]
       # @option request_options [String] :base_url
@@ -89,12 +100,14 @@ module Wavix
       # @option request_options [Hash{String => Object}] :additional_body_parameters
       # @option request_options [Integer] :timeout_in_seconds
       # @option params [Wavix::CallWebhooks::Types::DeleteCallWebhooksRequestEventType] :event_type
+      # @option params [String, nil] :expected_url
       #
       # @return [Wavix::Types::SuccessResponse]
       def delete(request_options: {}, **params)
         params = Wavix::Internal::Types::Utils.normalize_keys(params)
         query_params = {}
         query_params["event_type"] = params[:event_type] if params.key?(:event_type)
+        query_params["expected_url"] = params[:expected_url] if params.key?(:expected_url)
 
         request = Wavix::Internal::JSON::Request.new(
           base_url: request_options[:base_url],

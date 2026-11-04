@@ -684,7 +684,184 @@ client.sip_trunks.create(
 <dl>
 <dd>
 
-**request:** `Wavix::Types::SipTrunkCreateRequest` 
+**label:** `String` — User-defined name of the SIP trunk
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**password:** `String` — Password set for the SIP trunk. A strong password helps keep the trunk secure.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**host_request:** `Wavix::SipTrunks::Types::SipTrunkCreateRequestHostRequest` — For SIP trunks with IP authentication, includes the SIP endpoint public static IP address and the status of the authentication request. Wavix authenticates all SIP traffic originating from this IP address.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**callerid:** `String` — Caller ID associated with the SIP trunk. Must be an active or verified number on the account.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**multiple_numbers:** `Internal::Types::Boolean` — Indicates whether any active or verified phone number on the account can be used as the Caller ID for the SIP trunk.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ip_restrict:** `Internal::Types::Boolean` — Indicates whether SIP trunk registration is allowed from only specific public static IP addresses. When set to `true`, the `allowed_ips` parameter must be provided.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**allowed_ips:** `Internal::Types::Array[Wavix::SipTrunks::Types::SipTrunkCreateRequestAllowedIpsItem]` — A list of public static IP addresses allowed to register with the SIP trunk
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**didinfo_enabled:** `Internal::Types::Boolean` — Indicates whether inbound calls include dialed number information in the `To` header of SIP INVITE requests
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**call_restrict:** `Internal::Types::Boolean` — Indicates whether a maximum call duration limit is enforced for the SIP trunk
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**call_limit:** `Integer` — Maximum call duration for the SIP trunk, in seconds. Must not exceed the maximum duration set for the account. Ignored when `call_restrict` is `false`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**cost_limit:** `Internal::Types::Boolean` — Indicates if the max cost limit for an outbound call limit is activated for the SIP trunk.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**max_call_cost:** `Integer` — Maximum cost for an outbound call, in USD
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**channels_restrict:** `Internal::Types::Boolean` — Indicates whether a limit on the number of concurrent outbound calls is enforced for the SIP trunk
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**max_channels:** `Integer` — Maximum number of concurrent outbound calls for the SIP trunk. Must not exceed the outbound channel capacity set for the account. Ignored when `channels_restrict` is `false`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**rewrite_enabled:** `Internal::Types::Boolean` — Indicates whether a custom dial plan is activated for the SIP trunk
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**rewrite_prefix:** `String` — Digits to automatically prepend to each dialed phone number
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**rewrite_cond:** `String` — Number of leading digits to automatically remove from each dialed phone number
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**call_recording_enabled:** `Internal::Types::Boolean` — Indicates whether outbound call recording is enabled for the SIP trunk
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**transcription_enabled:** `Internal::Types::Boolean` 
+
+Indicates whether automatic call transcription is enabled for the SIP trunk.
+Available for `Flex Pro` customers only.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**transcription_threshold:** `Integer` 
+
+Transcriptions will be generated for calls that meet or exceed the specified minimal call duration threshold, in seconds.
+Available for `Flex Pro` customers only.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**machine_detection_enabled:** `Internal::Types::Boolean` 
+
+Indicates whether automatic voicemail detection is enabled for the SIP trunk.
+Available for `Flex Pro` customers only.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**encrypted_media:** `Internal::Types::Boolean` — Indicates whether SRTP media encryption is enabled for the SIP trunk.
     
 </dd>
 </dl>
@@ -778,7 +955,7 @@ client.sip_trunks.get(id: 3107)
 <dl>
 <dd>
 
-Replaces the configuration of the SIP trunk identified by `id`. Omitted fields revert to their defaults.
+Updates the SIP trunk identified by `id`. Only the provided fields are changed. On trial accounts, every update also applies the trial limits: a `call_limit` of at most 300 seconds (300 when omitted) and one concurrent call.
 </dd>
 </dl>
 </dd>
@@ -793,19 +970,7 @@ Replaces the configuration of the SIP trunk identified by `id`. Omitted fields r
 <dd>
 
 ```ruby
-client.sip_trunks.update(
-  id: 3107,
-  label: "My trunk",
-  password: "4r=h;EaCB85QNtr2",
-  callerid: "13132847320",
-  ip_restrict: false,
-  didinfo_enabled: true,
-  call_restrict: true,
-  channels_restrict: false,
-  rewrite_enabled: true,
-  transcription_enabled: true,
-  transcription_threshold: 10
-)
+client.sip_trunks.update(id: 3107)
 ```
 </dd>
 </dl>
@@ -828,7 +993,184 @@ client.sip_trunks.update(
 <dl>
 <dd>
 
-**request:** `Wavix::Types::SipTrunkCreateRequest` 
+**label:** `String` — User-defined name of the SIP trunk
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**password:** `String` — Password set for the SIP trunk. A strong password helps keep the trunk secure.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**host_request:** `Wavix::SipTrunks::Types::SipTrunkUpdateRequestHostRequest` — For SIP trunks with IP authentication, the SIP endpoint public static IP address. Wavix authenticates all SIP traffic originating from this IP address. Ignored when the trunk already has a host request that is pending or approved. Not supported on trial accounts.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**callerid:** `String` — Caller ID associated with the SIP trunk. Must be an active or verified number on the account.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**multiple_numbers:** `Internal::Types::Boolean` — Indicates whether any active or verified phone number on the account can be used as the Caller ID for the SIP trunk. Setting it to `true` clears the trunk's `callerid`; on a trunk with Caller ID passthrough (`passthrough`) enabled, `true` is ignored.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ip_restrict:** `Internal::Types::Boolean` — Indicates whether SIP trunk registration is allowed from only specific public static IP addresses. It can be `true` only when the trunk has at least one allowed IP address, either already stored or sent in `allowed_ips`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**allowed_ips:** `Internal::Types::Array[Wavix::SipTrunks::Types::SipTrunkUpdateRequestAllowedIpsItem]` — Public static IP addresses to add to the list allowed to register with the SIP trunk. Addresses already on the list are kept.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**didinfo_enabled:** `Internal::Types::Boolean` — Indicates whether inbound calls include dialed number information in the `To` header of SIP INVITE requests
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**call_restrict:** `Internal::Types::Boolean` — Indicates whether a maximum call duration limit is enforced for the SIP trunk
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**call_limit:** `Integer` — Maximum call duration for the SIP trunk, in seconds. Must not exceed the maximum duration set for the account. Ignored when `call_restrict` is `false`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**cost_limit:** `Internal::Types::Boolean` — Indicates if the max cost limit for an outbound call limit is activated for the SIP trunk.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**max_call_cost:** `Integer` — Maximum cost for an outbound call, in USD
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**channels_restrict:** `Internal::Types::Boolean` — Indicates whether a limit on the number of concurrent outbound calls is enforced for the SIP trunk
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**max_channels:** `Integer` — Maximum number of concurrent outbound calls for the SIP trunk. Must not exceed the outbound channel capacity set for the account. Ignored when `channels_restrict` is `false`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**rewrite_enabled:** `Internal::Types::Boolean` — Indicates whether a custom dial plan is activated for the SIP trunk
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**rewrite_prefix:** `String` — Digits to automatically prepend to each dialed phone number
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**rewrite_cond:** `String` — Number of leading digits to automatically remove from each dialed phone number
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**call_recording_enabled:** `Internal::Types::Boolean` — Indicates whether outbound call recording is enabled for the SIP trunk
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**transcription_enabled:** `Internal::Types::Boolean` 
+
+Indicates whether automatic call transcription is enabled for the SIP trunk.
+Available for `Flex Pro` customers only.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**transcription_threshold:** `Integer` 
+
+Transcriptions will be generated for calls that meet or exceed the specified minimal call duration threshold, in seconds.
+Available for `Flex Pro` customers only.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**machine_detection_enabled:** `Internal::Types::Boolean` 
+
+Indicates whether automatic voicemail detection is enabled for the SIP trunk.
+Available for `Flex Pro` customers only.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**encrypted_media:** `Internal::Types::Boolean` — Indicates whether SRTP media encryption is enabled for the SIP trunk.
     
 </dd>
 </dl>
@@ -1527,6 +1869,8 @@ client.numbers.get(id: 123)
 <dd>
 
 Updates the phone number identified by `id`. Only the provided fields are changed.
+
+**Behavior:** With `expected_sms_relay_url`, the `sms_relay_url` change is applied only while the number currently has that URL; an empty string matches a number with no `sms_relay_url`. Otherwise the call returns `409` and no field in the request is changed. Setting the URL the number already has succeeds. To clear `sms_relay_url`, send `null`, not an empty string. If the call returns a `Something went wrong` error, you can retry the request; repeating the `sms_relay_url` change is a no-op, so it is safe even if the first attempt already applied it.
 </dd>
 </dl>
 </dd>
@@ -1580,7 +1924,15 @@ client.numbers.update(id: 123)
 <dl>
 <dd>
 
-**sms_relay_url:** `String` — Callback URL for inbound messages.
+**sms_relay_url:** `String` — Callback URL for inbound messages. Pass `null` to clear it.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**expected_sms_relay_url:** `String` — Applies the `sms_relay_url` change only if the number currently has this URL. Pass an empty string to set it only while it is unset, or your own URL to clear or replace it. Requires `sms_relay_url`.
     
 </dd>
 </dl>
@@ -1948,7 +2300,7 @@ Call disposition to filter results.  If omitted, returns only answered
 <dl>
 <dd>
 
-Transcribes the recording of the call identified by `call_id`. Transcription is asynchronous; poll the transcription endpoint for the result. Billed per minute at the account's call-transcription rate; fails with an insufficient-funds error when the balance cannot cover it.
+Transcribes the recording of the call identified by `call_id`. Transcription is asynchronous; poll the transcription endpoint for the result. When it completes, the new transcription replaces any earlier one that the transcription endpoints return. Billed per minute at the account's call-transcription rate; fails with an insufficient-funds error when the balance cannot cover it.
 </dd>
 </dl>
 </dd>
@@ -2885,6 +3237,8 @@ client.call_webhooks.list
 <dd>
 
 Registers a callback URL for the `on-call` or `post-call` event. Wavix sends a POST callback to the URL when the event occurs. Creates persistent configuration that forwards call metadata to the URL on every matching call until the webhook is deleted.
+
+**Behavior:** Without `expected_url`, the webhook is set to `url` whatever it was before. With `expected_url`, the webhook is set only while it currently has that URL; an empty string matches an unset webhook. Otherwise the call returns `409` and the webhook is unchanged. Setting the URL the webhook already has succeeds. If the call returns a `Something went wrong` error, the webhook is unchanged and you can retry the request.
 </dd>
 </dl>
 </dd>
@@ -2940,6 +3294,14 @@ Allowed values: `on-call`, `post-call`.
 <dl>
 <dd>
 
+**expected_url:** `String` — Applies the change only if the webhook currently has this URL. Pass an empty string to set the webhook only while it is unset, or your own URL to replace your webhook. Setting the URL the webhook already has always succeeds.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `Wavix::CallWebhooks::RequestOptions` 
     
 </dd>
@@ -2965,6 +3327,8 @@ Allowed values: `on-call`, `post-call`.
 <dd>
 
 Removes the call webhook for the given event type. Wavix stops sending callbacks for that event.
+
+**Behavior:** Without `expected_url`, the webhook is cleared whatever URL it has. With `expected_url`, the webhook is cleared only while it currently has that URL; an empty value matches an unset webhook. Otherwise the call returns `409` and the webhook is unchanged. Clearing an unset webhook succeeds. Percent-encode the `expected_url` value in the query string. If the call returns a `Something went wrong` error, the webhook is unchanged and you can retry the request.
 </dd>
 </dl>
 </dd>
@@ -2979,7 +3343,10 @@ Removes the call webhook for the given event type. Wavix stops sending callbacks
 <dd>
 
 ```ruby
-client.call_webhooks.delete(event_type: "post-call")
+client.call_webhooks.delete(
+  event_type: "post-call",
+  expected_url: "https://your-site.com/webhook"
+)
 ```
 </dd>
 </dl>
@@ -2995,6 +3362,14 @@ client.call_webhooks.delete(event_type: "post-call")
 <dd>
 
 **event_type:** `Wavix::CallWebhooks::Types::DeleteCallWebhooksRequestEventType` — Event type of the webhook to delete. One of `post-call` (callbacks sent after a call ends) or `on-call` (real-time call status callbacks during a call).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**expected_url:** `String` — Clears the webhook only if it currently has this URL. Percent-encode the value. An empty value clears only an unset webhook.
     
 </dd>
 </dl>
@@ -3446,7 +3821,7 @@ client.call_control.answer(id: "id")
 <dl>
 <dd>
 
-**stream_url:** `String` — WebSocket URL to stream the call.
+**stream_url:** `String` — WebSocket URL (`ws://` or `wss://`) that receives the call's audio, which can include the caller's voice.
     
 </dd>
 </dl>
@@ -4400,7 +4775,7 @@ client.sub_accounts.get(id: 123)
 <dl>
 <dd>
 
-Replaces the configuration of the sub-account identified by `id`. Omitted fields revert to their defaults.
+Updates the sub-account identified by `id`. Only the provided fields are changed.
 </dd>
 </dl>
 </dd>
@@ -5135,7 +5510,7 @@ client.buy.numbers.list(
 <dl>
 <dd>
 
-Starts streaming the audio of the call identified by `call_id` to a WebSocket destination you supply, in the direction (`stream_type`) and channel (`stream_channel`) you configure. The destination can be any URL you specify — Wavix does not restrict it. Returns the `stream_id`.
+Starts streaming the audio of the call identified by `call_id` to the WebSocket destination in `stream_url`, in the direction (`stream_type`) and channel (`stream_channel`) you configure. The streamed audio can include the remote party's voice.
 </dd>
 </dl>
 </dd>
@@ -5178,7 +5553,7 @@ client.call_control.streams.create(
 <dl>
 <dd>
 
-**stream_url:** `String` — WebSocket URL for call streaming
+**stream_url:** `String` — WebSocket URL (`ws://` or `wss://`) that receives the call's audio.
     
 </dd>
 </dl>
@@ -7317,7 +7692,7 @@ Business segment the Brand operates in. One of:
 <dl>
 <dd>
 
-**state_or_province:** `String` — State or province. For the United States, use 2 character codes.
+**state_or_province:** `String` — State or province. For the United States, it is a 2-character code.
     
 </dd>
 </dl>
@@ -9402,10 +9777,7 @@ client.ten_dlc.campaigns.nudge(
 <dl>
 <dd>
 
-**nudge_intent:** `String` 
-
-Nudge intent. Allowed values: `REVIEW`, `APPEAL_REJECTION`. 
-Use `nudge_intent` to specify the action: - `REVIEW`: Request review for a pending Campaign. - `APPEAL_REJECTION`: Appeal a rejected Campaign.
+**nudge_intent:** `String` — Action the nudge requests: `REVIEW` requests review of a pending Campaign, and `APPEAL_REJECTION` appeals a rejected Campaign.
     
 </dd>
 </dl>
@@ -10428,7 +10800,7 @@ client.webrtc.tokens.create(
 <dl>
 <dd>
 
-**ttl:** `Integer` — Time to live in seconds. Default `3600`. Pass `null` for no expiration.
+**ttl:** `Integer` — Time to live in seconds. Default `3600`; `null` means no expiration.
     
 </dd>
 </dl>

@@ -12,6 +12,8 @@ module Wavix
 
         field :sms_relay_url, -> { String }, optional: true, nullable: false
 
+        field :expected_sms_relay_url, -> { String }, optional: true, nullable: false
+
         field :call_recording_enabled, -> { Internal::Types::Boolean }, optional: true, nullable: false
 
         field :transcription_enabled, -> { Internal::Types::Boolean }, optional: true, nullable: false

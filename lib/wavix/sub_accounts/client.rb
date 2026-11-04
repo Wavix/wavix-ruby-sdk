@@ -121,7 +121,7 @@ module Wavix
         end
       end
 
-      # Replaces the configuration of the sub-account identified by `id`. Omitted fields revert to their defaults.
+      # Updates the sub-account identified by `id`. Only the provided fields are changed.
       #
       # @param request_options [Hash]
       # @param params [Wavix::SubAccounts::Types::SubAccountsUpdateRequest]
