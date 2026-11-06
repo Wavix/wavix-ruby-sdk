@@ -14,6 +14,8 @@ module Wavix
       field :text, -> { String }, optional: true, nullable: false
 
       field :sentiment, -> { String }, optional: true, nullable: false
+
+      field :topics, -> { Internal::Types::Array[String] }, optional: true, nullable: false
     end
   end
 end
