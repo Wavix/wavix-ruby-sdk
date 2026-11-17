@@ -1742,7 +1742,7 @@ applied to every listed number.
 <dl>
 <dd>
 
-**sms_relay_url:** `String` — Callback URL for inbound messages.
+**sms_relay_url:** `String` — Callback URL for inbound messages. Pass `null` to clear it.
     
 </dd>
 </dl>

@@ -14,6 +14,8 @@ module Wavix
 
       field :template, -> { Wavix::Types::WhatsAppMessageTemplate }, optional: false, nullable: true
 
+      field :service_window_open_until, -> { String }, optional: true, nullable: false
+
       field :created_at, -> { String }, optional: false, nullable: false
     end
   end

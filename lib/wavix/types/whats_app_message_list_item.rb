@@ -18,6 +18,10 @@ module Wavix
       field :country, -> { String }, optional: false, nullable: true
 
       field :created_at, -> { String }, optional: false, nullable: false
+
+      field :content, -> { Wavix::Types::WhatsAppInboundMessageContent }, optional: true, nullable: false
+
+      field :service_window_open_until, -> { String }, optional: true, nullable: false
     end
   end
 end

@@ -7,6 +7,7 @@ module Wavix
 
       SENT = "sent"
       DELIVERED = "delivered"
+      READ = "read"
       UNDELIVERED = "undelivered"
       EXPIRED = "expired"
       REJECTED = "rejected"
