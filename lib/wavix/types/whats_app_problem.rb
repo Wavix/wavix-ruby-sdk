@@ -18,6 +18,8 @@ module Wavix
       field :error_class, -> { Wavix::Types::WhatsAppProblemErrorClass }, optional: true, nullable: false
 
       field :error_code, -> { String }, optional: true, nullable: false
+
+      field :service_window_closed_at, -> { String }, optional: true, nullable: false
     end
   end
 end
