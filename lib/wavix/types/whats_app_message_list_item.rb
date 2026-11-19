@@ -22,6 +22,8 @@ module Wavix
       field :content, -> { Wavix::Types::WhatsAppInboundMessageContent }, optional: true, nullable: false
 
       field :service_window_open_until, -> { String }, optional: true, nullable: false
+
+      field :error, -> { Wavix::Types::WhatsAppMessageError }, optional: true, nullable: false
     end
   end
 end
