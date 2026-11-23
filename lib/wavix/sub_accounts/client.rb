@@ -53,7 +53,8 @@ module Wavix
       end
 
       # Creates a sub-account under the authenticated master account. Returns the sub-account with its generated
-      # `api_key`.
+      # `api_key`. Store the returned `api_key` securely. Later reads return `redacted_api_key`, and `api_key` on reads
+      # is deprecated.
       #
       # @param request_options [Hash]
       # @param params [Wavix::SubAccounts::Types::SubAccountsCreateRequest]
@@ -63,7 +64,7 @@ module Wavix
       # @option request_options [Hash{String => Object}] :additional_body_parameters
       # @option request_options [Integer] :timeout_in_seconds
       #
-      # @return [Wavix::Types::SubOrganizationResponse]
+      # @return [Wavix::Types::SubOrganizationWithSecret]
       def create(request_options: {}, **params)
         params = Wavix::Internal::Types::Utils.normalize_keys(params)
         request = Wavix::Internal::JSON::Request.new(
@@ -80,7 +81,7 @@ module Wavix
         end
         code = response.code.to_i
         if code.between?(200, 299)
-          Wavix::Types::SubOrganizationResponse.load(response.body)
+          Wavix::Types::SubOrganizationWithSecret.load(response.body)
         else
           error_class = Wavix::Errors::ResponseError.subclass_for_code(code)
           raise error_class.new(response.body, code: code)

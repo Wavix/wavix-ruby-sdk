@@ -2,13 +2,12 @@
 
 module Wavix
   module Types
-    # API key details including IP restrictions and scope permissions.
+    # API key details including IP restrictions and scope permissions. The `value` field is deprecated; use
+    # `redacted_value`.
     class APIKey < Internal::Types::Model
       field :id, -> { Integer }, optional: false, nullable: false
 
       field :label, -> { String }, optional: false, nullable: false
-
-      field :value, -> { String }, optional: false, nullable: false
 
       field :active, -> { Internal::Types::Boolean }, optional: false, nullable: false
 
@@ -47,6 +46,10 @@ module Wavix
       field :subaccounts, -> { Wavix::Types::APIKeyScopePermission }, optional: false, nullable: true
 
       field :created_at, -> { String }, optional: false, nullable: false
+
+      field :value, -> { String }, optional: false, nullable: false
+
+      field :redacted_value, -> { String }, optional: false, nullable: true
     end
   end
 end

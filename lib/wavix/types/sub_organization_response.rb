@@ -12,6 +12,8 @@ module Wavix
 
       field :api_key, -> { String }, optional: false, nullable: false
 
+      field :redacted_api_key, -> { String }, optional: false, nullable: true
+
       field :master_organization, -> { Integer }, optional: false, nullable: false
 
       field :status, -> { Wavix::Types::SubOrganizationResponseStatus }, optional: false, nullable: false
