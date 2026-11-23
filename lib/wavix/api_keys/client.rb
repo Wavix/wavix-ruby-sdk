@@ -47,7 +47,8 @@ module Wavix
       end
 
       # Creates an API key for the authenticated account. Restrict access by listing permitted IP addresses in
-      # `permitted_ips`.
+      # `permitted_ips`. Store the returned `value` securely. Later reads return `redacted_value`, and `value` on reads
+      # is deprecated.
       #
       # @param request_options [Hash]
       # @param params [Wavix::APIKeys::Types::APIKeyCreateRequest]
@@ -57,7 +58,7 @@ module Wavix
       # @option request_options [Hash{String => Object}] :additional_body_parameters
       # @option request_options [Integer] :timeout_in_seconds
       #
-      # @return [Wavix::Types::APIKey]
+      # @return [Wavix::Types::APIKeyWithSecret]
       def create(request_options: {}, **params)
         params = Wavix::Internal::Types::Utils.normalize_keys(params)
         request = Wavix::Internal::JSON::Request.new(

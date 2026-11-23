@@ -62,7 +62,7 @@ client.api_keys.list(label: "production")
 </dl>
 </details>
 
-<details><summary><code>client.api_keys.<a href="/lib/wavix/api_keys/client.rb">create</a>(request) -> Wavix::Types::APIKey</code></summary>
+<details><summary><code>client.api_keys.<a href="/lib/wavix/api_keys/client.rb">create</a>(request) -> Wavix::Types::APIKeyWithSecret</code></summary>
 <dl>
 <dd>
 
@@ -74,7 +74,7 @@ client.api_keys.list(label: "production")
 <dl>
 <dd>
 
-Creates an API key for the authenticated account. Restrict access by listing permitted IP addresses in `permitted_ips`.
+Creates an API key for the authenticated account. Restrict access by listing permitted IP addresses in `permitted_ips`. Store the returned `value` securely. Later reads return `redacted_value`, and `value` on reads is deprecated.
 </dd>
 </dl>
 </dd>
@@ -4625,7 +4625,7 @@ client.sub_accounts.list
 </dl>
 </details>
 
-<details><summary><code>client.sub_accounts.<a href="/lib/wavix/sub_accounts/client.rb">create</a>(request) -> Wavix::Types::SubOrganizationResponse</code></summary>
+<details><summary><code>client.sub_accounts.<a href="/lib/wavix/sub_accounts/client.rb">create</a>(request) -> Wavix::Types::SubOrganizationWithSecret</code></summary>
 <dl>
 <dd>
 
@@ -4637,7 +4637,7 @@ client.sub_accounts.list
 <dl>
 <dd>
 
-Creates a sub-account under the authenticated master account. Returns the sub-account with its generated `api_key`.
+Creates a sub-account under the authenticated master account. Returns the sub-account with its generated `api_key`. Store the returned `api_key` securely. Later reads return `redacted_api_key`, and `api_key` on reads is deprecated.
 </dd>
 </dl>
 </dd>

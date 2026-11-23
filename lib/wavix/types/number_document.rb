@@ -17,8 +17,6 @@ module Wavix
       field :doc_type, -> { Wavix::Types::DocumentType }, optional: false, nullable: true
 
       field :status, -> { String }, optional: false, nullable: false
-
-      field :url, -> { String }, optional: false, nullable: false
     end
   end
 end
