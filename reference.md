@@ -4048,7 +4048,7 @@ client.number_validator.get(
 <dl>
 <dd>
 
-Validates a batch of phone numbers. When `async` is `true`, returns a `request_id` to poll for results instead of the validation details.
+Validates a batch of phone numbers. When `async` is `true`, returns a `request_uuid` to poll for results instead of the validation details.
 </dd>
 </dl>
 </dd>
@@ -4081,7 +4081,7 @@ client.number_validator.create_bulk(
 <dl>
 <dd>
 
-**phone_numbers:** `Internal::Types::Array[String]` — List of phone numbers to get detailed information about. Maximum 1000 numbers per request.
+**phone_numbers:** `Internal::Types::Array[String]` — List of phone numbers to get detailed information about. Maximum 500 numbers per request, or 100000 when `async` is `true`.
     
 </dd>
 </dl>
@@ -6014,7 +6014,7 @@ client.number_validator.results.get(request_id: "12542c5c-1a17-4d12-a163-5b68543
 <dl>
 <dd>
 
-**request_id:** `String` — The `request_id` returned by the asynchronous bulk validation request.
+**request_id:** `String` — The `request_uuid` returned by the asynchronous bulk validation request.
     
 </dd>
 </dl>
@@ -8627,7 +8627,9 @@ Submits an appeal for an external vetting of the 10DLC Brand identified by `bran
 client.ten_dlc.brand_vetting_appeals.create(
   brand_id: "B6AI7PA",
   appeal_categories: ["VERIFY_TAX_ID"],
-  evidence: ["855dff49-c097-4645-3983-08dcb9856232"]
+  evidence: ["855dff49-c097-4645-3983-08dcb9856232"],
+  evp_id: "AEGIS",
+  vetting_id: "48c0ffaa-4e51-4d44-3982-08dcb9856232"
 )
 ```
 </dd>
@@ -8675,7 +8677,7 @@ client.ten_dlc.brand_vetting_appeals.create(
 <dl>
 <dd>
 
-**evp_id:** `String` — EVP ID.
+**evp_id:** `String` — Code of the external vetting provider whose vetting is appealed, as returned in the Brand's vettings.
     
 </dd>
 </dl>
@@ -8683,7 +8685,7 @@ client.ten_dlc.brand_vetting_appeals.create(
 <dl>
 <dd>
 
-**vetting_id:** `String` — Vetting ID.
+**vetting_id:** `String` — ID of the external vetting to appeal, as returned in the Brand's vettings.
     
 </dd>
 </dl>
