@@ -13,9 +13,9 @@ module Wavix
 
           field :explanation, -> { String }, optional: true, nullable: false
 
-          field :evp_id, -> { String }, optional: true, nullable: false
+          field :evp_id, -> { String }, optional: false, nullable: false
 
-          field :vetting_id, -> { String }, optional: true, nullable: false
+          field :vetting_id, -> { String }, optional: false, nullable: false
         end
       end
     end

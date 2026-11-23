@@ -53,7 +53,7 @@ module Wavix
         end
       end
 
-      # Validates a batch of phone numbers. When `async` is `true`, returns a `request_id` to poll for results instead
+      # Validates a batch of phone numbers. When `async` is `true`, returns a `request_uuid` to poll for results instead
       # of the validation details.
       #
       # @param request_options [Hash]

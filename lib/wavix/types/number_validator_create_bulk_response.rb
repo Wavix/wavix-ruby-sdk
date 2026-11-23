@@ -7,7 +7,7 @@ module Wavix
 
       member -> { Wavix::Types::PhoneValidationBatchResponse }
 
-      member -> { Wavix::Types::NumberValidatorCreateBulkResponseRequestID }
+      member -> { Wavix::Types::NumberValidatorCreateBulkResponseRequestUUID }
     end
   end
 end
