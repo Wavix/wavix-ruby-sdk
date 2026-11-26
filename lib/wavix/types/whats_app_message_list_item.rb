@@ -24,6 +24,10 @@ module Wavix
       field :service_window_open_until, -> { String }, optional: true, nullable: false
 
       field :error, -> { Wavix::Types::WhatsAppMessageError }, optional: true, nullable: false
+
+      field :charge, -> { String }, optional: true, nullable: false
+
+      field :category, -> { Wavix::Types::WhatsAppMessageListItemCategory }, optional: true, nullable: false
     end
   end
 end

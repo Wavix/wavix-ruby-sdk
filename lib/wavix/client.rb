@@ -11,7 +11,7 @@ module Wavix
       @raw_client = Wavix::Internal::Http::RawClient.new(
         base_url: base_url || Wavix::Environment::DEFAULT,
         headers: {
-          "User-Agent" => "wavix-ruby-sdk/3.1.1",
+          "User-Agent" => "wavix-ruby-sdk/3.2.0",
           "X-Fern-Language" => "Ruby",
           Authorization: "Bearer #{token}"
         },
