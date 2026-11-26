@@ -53,7 +53,7 @@ module Wavix
         end
 
         # Resends the OTP for the verification identified by `session_id` over the specified channel. Previously sent
-        # codes are invalidated.
+        # codes are invalidated. Each code sent is charged to the account balance.
         #
         # @param request_options [Hash]
         # @param params [Wavix::TwoFa::Verification::Types::TwoFactorVerificationResendRequest]

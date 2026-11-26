@@ -13,7 +13,7 @@ module Wavix
       # Validates a single phone number and returns line type, carrier, portability, and reachability details. The
       # response's `error_code` is a per-number result code (`000` success; `013` internal error; `021` invalid format;
       # `041` remote timeout; `042` remote query failed; `091` insufficient funds) — distinct from the HTTP status codes
-      # below.
+      # below. Each validation is charged to the account balance; `charge` in the response shows the amount.
       #
       # @param request_options [Hash]
       # @param params [Hash]
@@ -54,7 +54,7 @@ module Wavix
       end
 
       # Validates a batch of phone numbers. When `async` is `true`, returns a `request_uuid` to poll for results instead
-      # of the validation details.
+      # of the validation details. Each number in the batch is charged to the account balance.
       #
       # @param request_options [Hash]
       # @param params [Wavix::NumberValidator::Types::PhoneValidationRequest]
